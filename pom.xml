@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.example</groupId>
-    <artifactId>Wishlist1</artifactId>
+    <artifactId>Wishlist6</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Wishlist1</name>
-    <description>Wishlist1</description>
+    <name>Wishlist6</name>
+    <description>Wishlist6</description>
     <url/>
     <licenses>
         <license/>

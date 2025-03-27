@@ -15,15 +15,6 @@ jobs:
     permissions:
       contents: read #This is required for actions/checkout
 
-    services:
-      mysql:
-        image: mysql:8
-        env:
-          MYSQL_ROOT_PASSWORD: Kattehund1337!
-          MYSQL_DATABASE: wishlist
-        ports:
-          - 3306:3306
-
     steps:
       - uses: actions/checkout@v4
 

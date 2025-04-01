@@ -4,12 +4,14 @@ public class User {
     private int userId;
     private String userName;
     private String userEmail;
+    private String passwordHash;
     //tilføj map senere
 
-    public User(int userId, String userName, String userEmail) {
+    public User(int userId, String userName, String userEmail, String passwordHash) {
         this.userId = userId;
         this.userName = userName;
         this.userEmail = userEmail;
+        this.passwordHash = passwordHash;
     }
     public User(){
 
@@ -38,4 +40,12 @@ public class User {
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
+
+    public String getpasswordHash() {
+        return passwordHash;
+    }
+    public void setpasswordHash(String hashedPassword) {
+        this.passwordHash = hashedPassword;
+    }
+
 }

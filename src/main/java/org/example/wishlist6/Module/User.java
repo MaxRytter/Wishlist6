@@ -13,9 +13,6 @@ public class User {
         this.userEmail = userEmail;
         this.passwordHash = passwordHash;
     }
-    public User(){
-
-    }
 
     public int getUserId() {
         return userId;
@@ -41,11 +38,11 @@ public class User {
         this.userEmail = userEmail;
     }
 
-    public String getpasswordHash() {
+    public String getPasswordHash() {
         return passwordHash;
     }
-    public void setpasswordHash(String hashedPassword) {
-        this.passwordHash = hashedPassword;
-    }
 
+    public void setPasswordHash(String passwordHash){
+        this.passwordHash = passwordHash;
+    }
 }

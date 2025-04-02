@@ -1,5 +1,6 @@
 package org.example.wishlist6.Repository;
 
+import org.example.wishlist6.Module.User;
 import org.example.wishlist6.Module.Wishitem;
 import org.example.wishlist6.Module.Wishlist;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,7 +24,11 @@ public class WishlistRepository {
         String sql = "INSERT INTO wishlist (wishlist_name, wish_item_name, wish_item_desc) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, wishlistName, wishItemName, wishItemDesc);
     }
-
+    public void save(User user) {
+        String sql = "INSERT INTO users (userName, userEmail, passwordHash) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, user.getUserName(), user.getUserEmail(), user.getPasswordHash());
+        // evt print her "bruger registreret med email: " + user.getUserEmail()
+    }
     public Wishitem getWishById(int id) {
         String sql = "SELECT * FROM wishitems WHERE wishItemID = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<Wishitem>() {

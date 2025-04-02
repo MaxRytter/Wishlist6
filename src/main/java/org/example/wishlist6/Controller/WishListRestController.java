@@ -21,5 +21,7 @@ public class WishListRestController {
         wishListService.addWish(wishlistName, wishItemName, wishItemDesc);
         return "Wish added successfully!";
     }
+//test igen
 }
+
 

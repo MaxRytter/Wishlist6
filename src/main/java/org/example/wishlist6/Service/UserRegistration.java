@@ -45,7 +45,7 @@ public class UserRegistration {
 
 
         User user = new User(userName, userEmail, passwordHash);
-        wishlistRepository.save(user);
+        wishlistRepository.saveUser(user);
 
 
     }

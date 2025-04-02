@@ -5,7 +5,12 @@ import org.example.wishlist6.Module.Wishitem;
 import org.example.wishlist6.Module.Wishlist;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 
 @Repository
 public class WishlistRepository {
@@ -15,22 +20,33 @@ public class WishlistRepository {
     public WishlistRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+    public int addWishlist(Wishlist wishlist) {
+        String sql = "INSERT INTO wishlist (wishlist_name) VALUES (?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, wishlist.getWishListName());
+            return ps;
+        }, keyHolder);
+        return keyHolder.getKey().intValue();  // Returns the generated key (ID)
+    }
 
-    public void save(Wishlist wishlist) {
-        String sql = "INSERT INTO wishlist (wishListName) VALUES (?)";
+
+    public void saveWishlist(Wishlist wishlist) {
+        String sql = "INSERT INTO wishlist (wishList_name VALUES (?)";
         jdbcTemplate.update(sql, wishlist.getWishListName());
     }
     public void addWish(String wishlistName, String wishItemName, String wishItemDesc) {
         String sql = "INSERT INTO wishlist (wishlist_name, wish_item_name, wish_item_desc) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, wishlistName, wishItemName, wishItemDesc);
     }
-    public void save(User user) {
-        String sql = "INSERT INTO users (userName, userEmail, passwordHash) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, user.getUserName(), user.getUserEmail(), user.getPasswordHash());
+    public void saveUser(User user) {
+        String sql = "INSERT INTO users (user_name, user_email, user_password) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, user.getUserName(), user.getUserEmail(), user.getUserPassword());
         // evt print her "bruger registreret med email: " + user.getUserEmail()
     }
     public Wishitem getWishById(int id) {
-        String sql = "SELECT * FROM wishitems WHERE wishItemID = ?";
+        String sql = "SELECT * FROM wishitems WHERE wish_id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<Wishitem>() {
             @Override
             public Wishitem mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {

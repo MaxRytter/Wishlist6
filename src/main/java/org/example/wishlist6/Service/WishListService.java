@@ -14,7 +14,7 @@ public class WishListService {
 
 
     public void addWishlist(Wishlist wishlist) {
-        wishlistRepository.save(wishlist);
+        wishlistRepository.addWishlist(wishlist);
     }
 
     public Wishitem getWishById(int id) {

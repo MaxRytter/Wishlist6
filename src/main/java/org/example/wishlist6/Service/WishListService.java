@@ -13,4 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
     public void addWishlist(Wishlist wishlist) {
         wishlistRepository.save(wishlist);
     }
+    public void addWish(String wishlistName, String wishItemName, String wishItemDesc) {
+        wishlistRepository.addWish(wishlistName, wishItemName, wishItemDesc);
+    }
 }

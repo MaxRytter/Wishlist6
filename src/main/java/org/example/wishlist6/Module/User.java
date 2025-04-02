@@ -45,3 +45,5 @@ public class User {
         this.passwordHash = passwordHash;
     }
 }
+
+// test, er der stadig conflict hvis jeg pusher nu?

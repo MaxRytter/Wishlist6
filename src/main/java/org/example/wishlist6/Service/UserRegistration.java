@@ -2,6 +2,7 @@ package org.example.wishlist6.Service;
 
 
         import org.example.wishlist6.Module.User;
+        import org.example.wishlist6.Repository.WishlistRepository;
 
         import java.util.Scanner;
  /** jbcrypt er en package der kan kryptere passwords, men kan ikke importere den som dependency i maven?? tjek op på dette senere...
@@ -9,10 +10,14 @@ package org.example.wishlist6.Service;
 
 
 public class UserRegistration {
-private UserService userService;
-public UserRegistration(UserService userService) {
-    this.userService = userService;
-}
+     private final WishlistRepository wishlistRepository;
+
+
+     public UserRegistration(WishlistRepository wishlistRepository) {
+         this.wishlistRepository = wishlistRepository;  // Initialize repository
+     }
+
+
 public void register() {
 
 
@@ -38,11 +43,10 @@ public void register() {
     }
 
 
-    userService.registerUser(userName, userEmail, passwordHash);
+    User user = new User(userName, userEmail, passwordHash);
+    wishlistRepository.save(user);
 
 
-
-    scanner.close();
 }
 /** igen, kryptering
     private String passwordHash(String password) {

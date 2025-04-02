@@ -20,15 +20,12 @@ public void register() {
     Scanner scanner = new Scanner(System.in);
 
 
-    //her skal være inputboks
     System.out.println("Indtast brugernavn");
     String userName = scanner.nextLine();
 
-    //her skal være inputboks
     System.out.println("Indtast email");
     String userEmail = scanner.nextLine();
 
-    //her skal være inputboks
     System.out.println("Indtast password");
     String passwordHash = scanner.nextLine();
 
@@ -41,17 +38,9 @@ public void register() {
     }
 
 
-/**
- Her ville jeg tjekke at der ikke kan oprettes en ny bruger med samme email som en anden bruger,
- men listen users fra UserService klassen er private og contained i klassen. find ud af en løsning til dette!
-    for (User user : users) {
-        if (user.getUserEmail().equals(userEmail)) {
-            System.out.println("En bruger er allerede registreret med denne email");
-            return;
-        }
-
-**/
     userService.registerUser(userName, userEmail, passwordHash);
+
+
 
     scanner.close();
 }

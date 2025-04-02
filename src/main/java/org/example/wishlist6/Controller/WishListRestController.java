@@ -22,3 +22,4 @@ public class WishListRestController {
         return "Wish added successfully!";
     }
 }
+

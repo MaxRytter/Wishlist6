@@ -1,19 +1,36 @@
 package org.example.wishlist6.Service;
 
 import org.example.wishlist6.Module.Wishlist;
+import org.example.wishlist6.Module.Wishitem;
 import org.example.wishlist6.Repository.WishlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-@org.springframework.stereotype.Service
- public class WishListService {
+@Service
+public class WishListService {
 
     @Autowired
-    public WishlistRepository wishlistRepository;
+    private WishlistRepository wishlistRepository;
+
 
     public void addWishlist(Wishlist wishlist) {
         wishlistRepository.save(wishlist);
     }
-    public void addWish(String wishlistName, String wishItemName, String wishItemDesc) {
-        wishlistRepository.addWish(wishlistName, wishItemName, wishItemDesc);
+
+    public Wishitem getWishById(int id) {
+        return wishlistRepository.getWishById(id);
     }
+
+    public void addWish(String wishlistName, String wishItemName, String wishItemDesc) {
+    }
+
+    public void updateWish(int id, Wishitem wishItem) {
+        wishlistRepository.updateWish(id, wishItem);
+    }
+
+    public void removeWish(int id) {
+        wishlistRepository.removeWish(id);
+    }
+
+
 }

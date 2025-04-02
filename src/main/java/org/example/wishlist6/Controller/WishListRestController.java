@@ -51,7 +51,7 @@ public class WishListRestController {
             @RequestParam String wishItemDesc) {
 
         wishListService.addWish(wishlistName, wishItemName, wishItemDesc);
-        return "addWish";
+        return "add-wish";
     }
 
     @PostMapping("/wishlist/update/{id}")

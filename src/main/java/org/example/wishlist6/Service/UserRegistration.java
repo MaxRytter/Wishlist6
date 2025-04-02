@@ -19,13 +19,6 @@ public void register() {
 
     Scanner scanner = new Scanner(System.in);
 
-    System.out.println("Indtast brugerid");
-    int userId = scanner.nextInt();
-    // ovenstående er bare en midlertidig løsning, så programmet ikke klager over at userId ikke er defineret  - userId skal ikke vælges af brugeren,
-    // men skal tildeles automatisk - det gøres somehow når det gemmes i sql databasen?
-
-
-
 
     //her skal være inputboks
     System.out.println("Indtast brugernavn");
@@ -58,7 +51,7 @@ public void register() {
         }
 
 **/
-    userService.registerUser(userId, userName, userEmail, passwordHash);
+    userService.registerUser(userName, userEmail, passwordHash);
 
     scanner.close();
 }

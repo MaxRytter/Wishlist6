@@ -7,8 +7,7 @@ public class User {
     private String passwordHash;
     //tilføj map senere
 
-    public User(int userId, String userName, String userEmail, String passwordHash) {
-        this.userId = userId;
+    public User(String userName, String userEmail, String passwordHash) {
         this.userName = userName;
         this.userEmail = userEmail;
         this.passwordHash = passwordHash;

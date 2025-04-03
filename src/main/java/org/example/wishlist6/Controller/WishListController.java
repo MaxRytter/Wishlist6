@@ -33,7 +33,7 @@ public class WishListController {
     }
 
     @PostMapping("/wishlist/create")
-    public String createWishlist(@ModelAttribute Wishlist wishlist) {
+    public String addWishlist(@ModelAttribute Wishlist wishlist) {
         wishListService.addWishlist(wishlist);
         return "redirect:/wishlist";
     }

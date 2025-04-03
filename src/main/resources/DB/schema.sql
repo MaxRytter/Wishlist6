@@ -1,5 +1,5 @@
 /*CREATE DATABASE WishlistDB;
-
+USE WishlistDB;
 
 CREATE TABLE users (
                            user_id INT auto_increment primary key,

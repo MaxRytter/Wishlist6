@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Wishlists</title>
+</head>
+<body>
+<h1>Your Wishlists</h1>
+
+<!-- Display the wishlists -->
+<h2>Your Wishlists:</h2>
+<ul>
+    <!-- Iterate through each wishlist and display -->
+    <li th:each="wishlist : ${wishlists}">
+        <span th:text="${wishlist.wishListName}"></span>
+    </li>
+</ul>
+
+<!-- Button to create a new wishlist -->
+<a href="/wishlist/create">
+    <button>Create Wishlist</button>
+</a>
+
+<!-- Button to go back to the front page -->
+<a href="/">
+    <button>Back to Home</button>
+</a>
+</body>
+</html>

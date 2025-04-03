@@ -3,6 +3,7 @@ package org.example.wishlist6.Repository;
 import org.example.wishlist6.Module.User;
 import org.example.wishlist6.Module.Wishitem;
 import org.example.wishlist6.Module.Wishlist;
+import org.example.wishlist6.Rowmappers.WishlistRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
 
 @Repository
 public class WishlistRepository {
@@ -20,6 +22,13 @@ public class WishlistRepository {
     public WishlistRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+    public List<Wishlist> getAllWishlists() {
+        String sql = "SELECT * FROM wishlist";
+
+        RowMapper<Wishlist> rowMapper = new WishlistRowMapper();
+
+        return jdbcTemplate.query(sql, rowMapper);
+    }
     public int addWishlist(Wishlist wishlist) {
         String sql = "INSERT INTO wishlist (wishlist_name) VALUES (?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -28,7 +37,7 @@ public class WishlistRepository {
             ps.setString(1, wishlist.getWishListName());
             return ps;
         }, keyHolder);
-        return keyHolder.getKey().intValue();  // Returns the generated key (ID)
+        return keyHolder.getKey().intValue();
     }
 
 

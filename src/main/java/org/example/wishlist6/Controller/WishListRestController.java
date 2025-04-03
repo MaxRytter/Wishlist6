@@ -1,7 +1,10 @@
 package org.example.wishlist6.Controller;
 
+import org.example.wishlist6.Module.Wishitem;
 import org.example.wishlist6.Service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +23,12 @@ public class WishListRestController {
             @RequestParam String wishItemDesc) {
         wishListService.addWish(wishlistName, wishItemName, wishItemDesc);
         return "Wish added successfully!";
+    }
+
+    @PutMapping("/wishlist/update/{id}")
+    public ResponseEntity<Void> updateWishItem(@PathVariable int id, @RequestBody Wishitem wishItem) {
+        wishListService.updateWish(id, wishItem);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 //test igen
 }

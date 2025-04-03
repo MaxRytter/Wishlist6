@@ -20,8 +20,8 @@ public class WishListRestController {
     public String addWish(
             @RequestParam String wishlistName,
             @RequestParam String wishItemName,
-            @RequestParam String wishItemDesc) {
-        wishListService.addWish(wishlistName, wishItemName, wishItemDesc);
+            @RequestParam String wishItemDescription) {
+        wishListService.addWish(wishlistName, wishItemName, wishItemDescription);
         return "Wish added successfully!";
     }
 

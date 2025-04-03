@@ -6,6 +6,8 @@ import org.example.wishlist6.Repository.WishlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class WishListService {
 
@@ -33,4 +35,7 @@ public class WishListService {
     }
 
 
+    public List<Wishlist> getAllWishlists() {
+        return wishlistRepository.getAllWishlists();
+    }
 }

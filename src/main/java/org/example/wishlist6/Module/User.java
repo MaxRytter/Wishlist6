@@ -45,5 +45,3 @@ public class User {
         this.userPassword = userPassword;
     }
 }
-
-// test, er der stadig conflict hvis jeg pusher nu?

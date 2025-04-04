@@ -30,7 +30,7 @@ public class WishListRestController {
         wishListService.updateWish(id, wishItem);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-//test igen
+
 }
 
 

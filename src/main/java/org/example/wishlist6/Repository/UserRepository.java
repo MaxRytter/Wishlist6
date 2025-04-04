@@ -1,13 +1,18 @@
 package org.example.wishlist6.Repository;
 
 import org.example.wishlist6.Module.User;
+import org.example.wishlist6.Module.Wishlist;
+import org.example.wishlist6.Rowmappers.UserRowMapper;
+import org.example.wishlist6.Rowmappers.WishlistRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
 
 @Repository
 public class UserRepository {
@@ -17,6 +22,14 @@ public class UserRepository {
     public UserRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+    public List<User> getAllUsers() {
+        String sql = "SELECT * FROM user";
+
+        RowMapper<User> rowMapper = new UserRowMapper();
+
+        return jdbcTemplate.query(sql, rowMapper);
+    }
+
     public int addUser(User user) {
         String sql = "INSERT INTO users (user_name, user_email, user_password) VALUES (?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -31,4 +44,5 @@ public class UserRepository {
 
         return keyHolder.getKey().intValue();
     }
+
 }

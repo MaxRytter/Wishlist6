@@ -4,6 +4,7 @@ import org.example.wishlist6.Module.User;
 import org.example.wishlist6.Module.Wishitem;
 import org.example.wishlist6.Module.Wishlist;
 import org.example.wishlist6.Rowmappers.WishlistRowMapper;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -42,7 +43,7 @@ public class WishlistRepository {
 
 
     public void saveWishlist(Wishlist wishlist) {
-        String sql = "INSERT INTO wishlist (wishList_name VALUES (?)";
+        String sql = "INSERT INTO wishlist (wishlist_name VALUES (?)";
         jdbcTemplate.update(sql, wishlist.getWishListName());
     }
     public void addWish(String wishlistName, String wishItemName, String wishItemDesc) {
@@ -56,18 +57,23 @@ public class WishlistRepository {
     }
     public Wishitem getWishById(int id) {
         String sql = "SELECT * FROM wishitems WHERE wish_id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<Wishitem>() {
-            @Override
-            public Wishitem mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
-                Wishitem wishItem = new Wishitem();
-                wishItem.setWishItemID(rs.getInt("wishItemID"));
-                wishItem.setWishItemName(rs.getString("wishItemName"));
-                wishItem.setWishItemDescription(rs.getString("wishItemDescription"));
-                wishItem.setWishItemPrice(rs.getDouble("wishItemPrice"));
-                wishItem.setLinkToStore(rs.getString("linkToStore"));
-                return wishItem;
-            }
-        });
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<Wishitem>() {
+                @Override
+                public Wishitem mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
+                    Wishitem wishItem = new Wishitem();
+                    wishItem.setWishItemName(rs.getString("wishItemName"));
+                    wishItem.setWishItemDescription(rs.getString("wishItemDescription"));
+                    wishItem.setWishItemPrice(rs.getDouble("wishItemPrice"));
+                    wishItem.setLinkToStore(rs.getString("linkToStore"));
+                    return wishItem;
+                }
+            });
+        } catch (EmptyResultDataAccessException e) {
+            //Error handling
+            System.out.println("Wishitem with ID " + id + " not found.");
+            return null;
+        }
     }
 
     public void updateWish(int id, Wishitem wishItem) {
@@ -75,7 +81,6 @@ public class WishlistRepository {
         jdbcTemplate.update(sql, wishItem.getWishItemName(), wishItem.getWishItemDescription(),
                 wishItem.getWishItemPrice(), wishItem.getLinkToStore(), id);
     }
-
 
     public void removeWish(int id) {
         String sql = "DELETE FROM wishitems WHERE wishItemID = ?";

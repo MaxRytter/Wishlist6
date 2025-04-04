@@ -81,4 +81,8 @@ public class WishlistRepository {
         String sql = "DELETE FROM wishitems WHERE wishItemID = ?";
         jdbcTemplate.update(sql, id);
     }
+
+
+
+
 }

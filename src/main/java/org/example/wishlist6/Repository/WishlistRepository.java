@@ -11,6 +11,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
@@ -45,10 +47,16 @@ public class WishlistRepository {
         String sql = "INSERT INTO wishlist (wishList_name VALUES (?)";
         jdbcTemplate.update(sql, wishlist.getWishListName());
     }
-    public void addWish(String wishlistName, String wishItemName, String wishItemDesc) {
-        String sql = "INSERT INTO wishlist (wishlist_name, wish_item_name, wish_item_desc) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, wishlistName, wishItemName, wishItemDesc);
+    public void saveWish(int wishlistId, Wishitem wishItem) {
+        String sql = "INSERT INTO wish (wish_name, wish_description, wish_url, wish_price, wishlist_id) VALUES (?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql,
+                wishItem.getWishItemName(),
+                wishItem.getWishItemDescription(),
+                wishItem.getLinkToStore(),
+                wishItem.getWishItemPrice(),
+                wishlistId);
     }
+
     public void saveUser(User user) {
         String sql = "INSERT INTO users (user_name, user_email, user_password) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, user.getUserName(), user.getUserEmail(), user.getUserPassword());
@@ -80,5 +88,27 @@ public class WishlistRepository {
     public void removeWish(int id) {
         String sql = "DELETE FROM wishitems WHERE wishItemID = ?";
         jdbcTemplate.update(sql, id);
+    }
+
+
+    public Wishlist getWishlistById(int id) {
+        String sql = "SELECT * FROM wishlist WHERE wishlist_id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new WishlistRowMapper());
+    }
+
+    public List<Wishitem> getWishesByWishlistId(int wishlistId) {
+        String sql = "SELECT * FROM wish WHERE wishlist_id = ?";
+        return jdbcTemplate.query(sql, new Object[]{wishlistId}, new RowMapper<Wishitem>() {
+            @Override
+            public Wishitem mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Wishitem item = new Wishitem();
+                item.setWishItemID(rs.getInt("wish_id"));
+                item.setWishItemName(rs.getString("wish_name"));
+                item.setWishItemDescription(rs.getString("wish_description"));
+                item.setWishItemPrice(rs.getDouble("wish_price"));
+                item.setLinkToStore(rs.getString("wish_url"));
+                return item;
+            }
+        });
     }
 }

@@ -2,9 +2,30 @@
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Tilføj ønske</title>
 </head>
 <body>
+
+<h2>Tilføj ønske til ønskeseddel</h2>
+
+<form th:action="@{/wishlist/{wishlistId}/add-wish(wishlistId=${wishlistId})}" th:object="${wish}" method="post">
+    <label for="wishItemName">Ønsketitel:</label>
+    <input type="text" id="wishItemName" th:field="*{wishItemName}" required><br><br>
+
+    <label for="wishItemDescription">Beskrivelse:</label>
+    <input type="text" id="wishItemDescription" th:field="*{wishItemDescription}"><br><br>
+
+    <label for="wishItemPrice">Pris:</label>
+    <input type="number" step="0.01" id="wishItemPrice" th:field="*{wishItemPrice}"><br><br>
+
+    <label for="linkToStore">Link til butik:</label>
+    <input type="text" id="linkToStore" th:field="*{linkToStore}" placeholder="(valgfrit)">
+
+
+    <button type="submit">Tilføj</button>
+</form>
+
+<a href="/wishlist"><button>Tilbage</button></a>
 
 </body>
 </html>

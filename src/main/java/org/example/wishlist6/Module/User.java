@@ -12,6 +12,12 @@ public class User {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
     }
+    public User(){
+        // tom constructor
+    }
+
+
+
 
     public int getUserId() {
         return userId;

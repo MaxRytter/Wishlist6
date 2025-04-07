@@ -1,7 +1,3 @@
-
-
-
-
 package org.example.wishlist6.Repository;
 
 import org.example.wishlist6.Module.User;
@@ -109,7 +105,7 @@ public class WishlistRepository {
                 item.setWishItemId(rs.getInt("wish_id"));
                 item.setWishItemName(rs.getString("wish_name"));
                 item.setWishItemDescription(rs.getString("wish_description"));
-               // item.setWishItemPrice(rs.getDouble("wish_price"));
+                // item.setWishItemPrice(rs.getDouble("wish_price"));
                 item.setWishUrl(rs.getString("wish_url"));
                 return item;
             }

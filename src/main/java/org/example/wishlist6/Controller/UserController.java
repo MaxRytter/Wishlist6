@@ -27,8 +27,8 @@ public class UserController {
     @GetMapping("/user")
     public String getUsers(Model model) {
         /** bruges kun i testning, men her viser den alle users**/
-          List<User> users = userService.getAllUsers();
-          model.addAttribute("users", users);
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
         return "user";
     }
 
@@ -41,6 +41,11 @@ public class UserController {
     @PostMapping("/user/create")
     public String addUser(@ModelAttribute User user) {
         userService.addUser(user);
+        return "redirect:/user";
+    }
+    @GetMapping("/user/delete/{id}")
+    public String deleteUser(@PathVariable int id) {
+        userService.deleteUserById(id);
         return "redirect:/user";
     }
 

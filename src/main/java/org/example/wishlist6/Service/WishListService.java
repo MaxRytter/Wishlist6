@@ -14,21 +14,32 @@ import java.util.List;
     public WishListRepository wishlistRepository;
 
     public void addWishlist(Wishlist wishlist) {
-        wishlistRepository.save(wishlist);
+        wishlistRepository.addWishlist(wishlist);
     }
 
     public void addWish(String wishlistName, String wishItemName, String wishItemDescription) {
     }
 
     public List<Wishlist> getAllWishlists() {
-        return wishlistRepository.findAll();
+        return wishlistRepository.getAllWishlists();
     }
 
     public void updateWish(int id, Wishitem wishItem) {
     }
 
     public void saveWishToWishlist(int wishlistId, Wishitem wish) {
-        wishlistRepository.saveWish(wishlistId, wish);
+        wish.setWishlistId(wishlistId);
+        wishlistRepository.saveWish(wish);
+    }
+    public void deleteWishlistById(int id) {
+        wishlistRepository.deleteWishlistById(id);
+    }
+    public Wishlist getWishlistById(int id) {
+        return wishlistRepository.getWishlistById(id);
+    }
+
+    public List<Wishitem> getWishesByWishlistId(int wishlistId) {
+        return wishlistRepository.getWishesByWishlistId(wishlistId);
     }
 
 }

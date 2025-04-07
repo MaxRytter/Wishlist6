@@ -15,6 +15,15 @@
         <span th:text="${user.userName}"></span>
     </li>
 </ul>
+<table>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.userName}"></td>
+        <td>
+            <a th:href="@{'/user/delete/' + ${user.getUserId()}}">Delete</a>
+        </td>
+    </tr>
+</table>
+
 
 
 <a href="/user/create">
@@ -27,3 +36,5 @@
 </a>
 </body>
 </html>
+
+

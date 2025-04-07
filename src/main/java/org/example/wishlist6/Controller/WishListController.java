@@ -43,6 +43,15 @@ public class WishListController {
         wishListService.addWishlist(wishlist);
         return "redirect:/wishlist";
     }
+    @GetMapping("/wishlist/{id}")
+    public String viewWishlist(@PathVariable("id") int wishlistId, Model model) {
+        Wishlist wishlist = wishListService.getWishlistById(wishlistId); // includes name etc.
+        List<Wishitem> wishes = wishListService.getWishesByWishlistId(wishlistId); // all wishes
+
+        model.addAttribute("wishlist", wishlist);
+        model.addAttribute("wishes", wishes);
+        return "view-wishlist"; // name of your HTML file
+    }
 
     @GetMapping("/wishlist/{id}/add-wish")
     public String showAddWishForm(@PathVariable("id") int wishlistId, Model model) {
@@ -54,6 +63,11 @@ public class WishListController {
     @PostMapping("/wishlist/{id}/add-wish")
     public String addWishToWishlist(@PathVariable("id") int wishlistId, @ModelAttribute Wishitem wish) {
         wishListService.saveWishToWishlist(wishlistId, wish);
+        return "redirect:/wishlist";
+    }
+    @GetMapping("/wishlist/delete/{id}")
+    public String deleteWishlist(@PathVariable int id) {
+        wishListService.deleteWishlistById(id);
         return "redirect:/wishlist";
     }
 

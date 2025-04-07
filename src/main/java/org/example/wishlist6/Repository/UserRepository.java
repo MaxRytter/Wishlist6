@@ -44,5 +44,9 @@ public class UserRepository {
 
         return keyHolder.getKey().intValue();
     }
+    public void deleteUserById(int id) {
+        String sql = "DELETE FROM userlist WHERE user_id = ?";
+        jdbcTemplate.update(sql, id);
+    }
 
 }

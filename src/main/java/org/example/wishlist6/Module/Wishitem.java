@@ -4,17 +4,26 @@ public class Wishitem {
     private int wishItemId;
     private String wishItemName;
     private String wishItemDescription;
-    private Double wishItemPrice; // <-- brug Wrapper for at kunne være null
     private String wishUrl; // <-- matcher kolonnen 'wish_url' i databasen
+    private int wishlistId;
 
-    public Wishitem(String wishItemName, String wishItemDescription, Double wishItemPrice, String wishUrl) {
+    public Wishitem(String wishItemName, String wishItemDescription, String wishUrl, int wishlistId) {
         this.wishItemName = wishItemName;
         this.wishItemDescription = wishItemDescription;
-        this.wishItemPrice = wishItemPrice;
         this.wishUrl = wishUrl;
+        this.wishlistId = wishlistId;
+
     }
 
     public Wishitem() {}
+
+    public int getWishlistId() {
+        return wishlistId;
+    }
+
+    public void setWishlistId(int wishlistId) {
+        this.wishlistId = wishlistId;
+    }
 
     public int getWishItemId() {
         return wishItemId;
@@ -40,13 +49,6 @@ public class Wishitem {
         this.wishItemDescription = wishItemDescription;
     }
 
-    public Double getWishItemPrice() {
-        return wishItemPrice;
-    }
-
-    public void setWishItemPrice(Double wishItemPrice) {
-        this.wishItemPrice = wishItemPrice;
-    }
 
     public String getWishUrl() {
         return wishUrl;

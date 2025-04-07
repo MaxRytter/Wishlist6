@@ -7,14 +7,18 @@
 <body>
 <h1>All users</h1>
 
+<table>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.userName}"></td>
+        <td>
+            <a th:href="@{'/user/' + ${user.getUserId()} + '/edit'}">
+                <button>Rediger Info</button>
+            </a>
+            <a th:href="@{'/user/delete/' + ${user.getUserId()}}">Delete User</a>
+        </td>
+    </tr>
+</table>
 
-<h2>All users:</h2>
-<ul>
-
-    <li th:each="user : ${users}">
-        <span th:text="${user.userName}"></span>
-    </li>
-</ul>
 
 
 <a href="/user/create">
@@ -27,3 +31,5 @@
 </a>
 </body>
 </html>
+
+

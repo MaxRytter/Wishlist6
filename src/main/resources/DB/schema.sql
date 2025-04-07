@@ -16,12 +16,14 @@ CREATE TABLE wishlist (
 );
 CREATE TABLE wish (
                       wish_id INT AUTO_INCREMENT PRIMARY KEY,
-                      wish_name VARCHAR(255) NOT NULL,
-                      wish_description VARCHAR(255),
+                      wish_name VARCHAR(255),
+                      wish_description TEXT,
+                      wish_price DOUBLE,
                       wish_url VARCHAR(255),
                       wishlist_id INT,
                       FOREIGN KEY (wishlist_id) REFERENCES wishlist(wishlist_id)
 );
+
 /* NOTE: HAR KUN TILFØJET NEDENUNDER VÆRDI FOR AT KUNNE TESTE - MAX
 ALTER TABLE wishlist
     MODIFY user_id INT NULL;

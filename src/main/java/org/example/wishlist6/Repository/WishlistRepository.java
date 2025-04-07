@@ -48,12 +48,12 @@ public class WishlistRepository {
         jdbcTemplate.update(sql, wishlist.getWishListName());
     }
     public void saveWish(int wishlistId, Wishitem wishItem) {
-        String sql = "INSERT INTO wish (wish_name, wish_description, wish_url, wish_price, wishlist_id) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO wish (wish_name, wish_description, wish_url, /* wish_price,*/ wishlist_id) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql,
                 wishItem.getWishItemName(),
                 wishItem.getWishItemDescription(),
                 wishItem.getWishUrl(),
-                wishItem.getWishItemPrice(),
+                // wishItem.getWishItemPrice(),
                 wishlistId);
     }
 
@@ -105,7 +105,7 @@ public class WishlistRepository {
                 item.setWishItemId(rs.getInt("wish_id"));
                 item.setWishItemName(rs.getString("wish_name"));
                 item.setWishItemDescription(rs.getString("wish_description"));
-                item.setWishItemPrice(rs.getDouble("wish_price"));
+               // item.setWishItemPrice(rs.getDouble("wish_price"));
                 item.setWishUrl(rs.getString("wish_url"));
                 return item;
             }

@@ -1,20 +1,20 @@
-CREATE DATABASE IF NOT EXISTS WishlistDB;
+CREATE DATABASE WishlistDB;
 USE WishlistDB;
 
-CREATE TABLE IF NOT EXISTS userlist (
+CREATE TABLE users (
                            user_id INT auto_increment primary key,
                            user_name VARCHAR(255) NOT NULL,
                            user_email VARCHAR(255) UNIQUE NOT NULL,
                            user_password VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE  IF NOT EXISTS wishlist (
+CREATE TABLE wishlist (
                           wishlist_id INT auto_increment primary key,
                           wishlist_name VARCHAR(255) NOT NULL,
                           user_id INT,
-                          FOREIGN KEY (user_id) REFERENCES userlist(user_id)
+                          FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
-CREATE TABLE  IF NOT EXISTS wish (
+CREATE TABLE wish (
                       wish_id INT AUTO_INCREMENT PRIMARY KEY,
                       wish_name VARCHAR(255) NOT NULL,
                       wish_description VARCHAR(255),
@@ -24,4 +24,4 @@ CREATE TABLE  IF NOT EXISTS wish (
 );
 /* NOTE: HAR KUN TILFØJET NEDENUNDER VÆRDI FOR AT KUNNE TESTE - MAX
 ALTER TABLE wishlist
-    MODIFY user_id INT NULL;*/
+    MODIFY user_id INT NULL;

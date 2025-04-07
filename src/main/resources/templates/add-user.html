@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 <head>
     <meta charset="UTF-8">
     <title>Opret bruger</title>
@@ -9,7 +9,8 @@
 <h2>Opret bruger</h2>
 
 
-<form th:action="@{/user/create}" th:object="${user}" method="post">
+<form th:action="@{/users/create}" th:object="${user}" method="post">
+
 
   <label for="userName">Displaynavn:</label>
   <input type="text" id="userName" th:field="*{userName}" required>

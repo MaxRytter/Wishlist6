@@ -1,7 +1,7 @@
 CREATE DATABASE WishlistDB;
 USE WishlistDB;
 
-CREATE TABLE users (
+CREATE TABLE userlist (
                            user_id INT auto_increment primary key,
                            user_name VARCHAR(255) NOT NULL,
                            user_email VARCHAR(255) UNIQUE NOT NULL,
@@ -23,7 +23,6 @@ CREATE TABLE wish (
                       wishlist_id INT,
                       FOREIGN KEY (wishlist_id) REFERENCES wishlist(wishlist_id)
 );
-
 /* NOTE: HAR KUN TILFØJET NEDENUNDER VÆRDI FOR AT KUNNE TESTE - MAX
 ALTER TABLE wishlist
     MODIFY user_id INT NULL;

@@ -19,29 +19,29 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user")
+    @GetMapping("/u")
     public String showFrontPage() {
         return "index";
     }
 
-    @GetMapping("/users")
+    @GetMapping("/user")
     public String getUsers(Model model) {
         /** bruges kun i testning, men her viser den alle users**/
           List<User> users = userService.getAllUsers();
           model.addAttribute("users", users);
-        return "users";
+        return "user";
     }
 
-    @GetMapping("/users/create")
+    @GetMapping("/user/create")
     public String showCreateForm(Model model) {
         model.addAttribute("user", new User());
         return "add-user";
     }
 
-    @PostMapping("/users/create")
+    @PostMapping("/user/create")
     public String addUser(@ModelAttribute User user) {
         userService.addUser(user);
-        return "redirect:/users";
+        return "redirect:/user";
     }
 
 }

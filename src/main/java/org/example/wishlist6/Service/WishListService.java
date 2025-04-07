@@ -1,34 +1,61 @@
 package org.example.wishlist6.Service;
 
-import org.example.wishlist6.Module.Wishitem;
+import org.example.wishlist6.Module.User;
 import org.example.wishlist6.Module.Wishlist;
-import org.example.wishlist6.Repository.WishListRepository;
+import org.example.wishlist6.Module.Wishitem;
+import org.example.wishlist6.Repository.WishlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@org.springframework.stereotype.Service
- public class WishListService {
+@Service
+public class WishListService {
 
     @Autowired
-    public WishListRepository wishlistRepository;
+    private WishlistRepository wishlistRepository;
+
 
     public void addWishlist(Wishlist wishlist) {
-        wishlistRepository.save(wishlist);
+        wishlistRepository.addWishlist(wishlist);
     }
 
-    public void addWish(String wishlistName, String wishItemName, String wishItemDescription) {
+    public Wishitem getWishById(int id) {
+        return wishlistRepository.getWishById(id);
     }
 
-    public List<Wishlist> getAllWishlists() {
-        return wishlistRepository.findAll();
+    public void addWish(String wishlistName, String wishItemName, String wishItemDesc) {
     }
 
     public void updateWish(int id, Wishitem wishItem) {
+        wishlistRepository.updateWish(id, wishItem);
     }
 
-    public void saveWishToWishlist(int wishlistId, Wishitem wish) {
-        wishlistRepository.saveWish(wishlistId, wish);
+    public void removeWish(int id) {
+        wishlistRepository.removeWish(id);
+    }
+
+
+    public List<Wishlist> getAllWishlists() {
+        return wishlistRepository.getAllWishlists();
+    }
+
+
+    public void saveUser(User user) {
+        wishlistRepository.saveUser(user);
+    }
+
+    public void saveWish(int wishlistId, Wishitem wishItem) {
+        wishlistRepository.saveWish(wishlistId, wishItem);
+    }
+
+
+    public Wishlist getWishlistById(int id) {
+        return wishlistRepository.getWishlistById(id);
+    }
+
+    public List<Wishitem> getWishesByWishlistId(int wishlistId) {
+        return wishlistRepository.getWishesByWishlistId(wishlistId);
     }
 
 }

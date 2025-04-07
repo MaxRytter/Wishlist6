@@ -5,6 +5,9 @@ import org.example.wishlist6.Module.Wishlist;
 import org.example.wishlist6.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+
 
 import java.util.List;
 
@@ -24,6 +27,17 @@ public class UserService{
         return userRepository.getAllUsers();
     }
 
+
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
+    public boolean authenticateUser(String userEmail, String userPassword) {
+        User user = userRepository.findUserByEmail(userEmail);
+        if (user !=null) {
+            return passwordEncoder.matches(userPassword, user.getUserPassword());
+        }
+        return false;
+    }
 
 
 }

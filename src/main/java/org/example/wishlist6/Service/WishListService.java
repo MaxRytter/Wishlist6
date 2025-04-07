@@ -3,7 +3,7 @@ package org.example.wishlist6.Service;
 import org.example.wishlist6.Module.User;
 import org.example.wishlist6.Module.Wishlist;
 import org.example.wishlist6.Module.Wishitem;
-import org.example.wishlist6.Repository.WishlistRepository;
+import org.example.wishlist6.Repository.WishListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.List;
 public class WishListService {
 
     @Autowired
-    private WishlistRepository wishlistRepository;
+    private WishListRepository wishlistRepository;
 
 
     public void addWishlist(Wishlist wishlist) {

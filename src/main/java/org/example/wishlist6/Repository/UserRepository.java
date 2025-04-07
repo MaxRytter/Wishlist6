@@ -23,7 +23,7 @@ public class UserRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
     public List<User> getAllUsers() {
-        String sql = "SELECT * FROM user";
+        String sql = "SELECT * FROM userlist";
 
         RowMapper<User> rowMapper = new UserRowMapper();
 
@@ -31,7 +31,7 @@ public class UserRepository {
     }
 
     public int addUser(User user) {
-        String sql = "INSERT INTO user (user_name, user_email, user_password) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO userlist (user_name, user_email, user_password) VALUES (?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {

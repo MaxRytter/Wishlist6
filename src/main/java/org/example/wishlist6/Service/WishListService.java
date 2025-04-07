@@ -23,6 +23,9 @@ import java.util.List;
     public List<Wishlist> getAllWishlists() {
         return wishlistRepository.getAllWishlists();
     }
+    public void updateWishlist(Wishlist wishlist) {
+        wishlistRepository.updateWishlist(wishlist);
+    }
 
     public void updateWish(int id, Wishitem wishItem) {
     }
@@ -42,8 +45,18 @@ import java.util.List;
         return wishlistRepository.getWishesByWishlistId(wishlistId);
     }
     public void deleteWishById(int wishId) {
-        wishlistRepository.deleteWishById(wishId); // Assumes you have a method to delete a wish by its ID in the repository
+        wishlistRepository.deleteWishById(wishId);
     }
+    public Wishitem getWishById(int wishId) {
+        return wishlistRepository.findWishById(wishId);
+    }
+
+
+    public void updateWishItem(Wishitem wish) {
+        wishlistRepository.updateWishInfo(wish);
+    }
+
+
 
 
 }

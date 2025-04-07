@@ -50,7 +50,7 @@ public class WishListController {
 
         model.addAttribute("wishlist", wishlist);
         model.addAttribute("wishes", wishes);
-        return "view-wishlist"; // name of your HTML file
+        return "view-wishlist";
     }
 
     @GetMapping("/wishlist/{id}/add-wish")
@@ -73,7 +73,34 @@ public class WishListController {
     @GetMapping("/wishlist/{wishlistId}/delete-wish/{wishId}")
     public String deleteWish(@PathVariable("wishlistId") int wishlistId, @PathVariable("wishId") int wishId) {
         wishListService.deleteWishById(wishId);
-        return "redirect:/wishlist/" + wishlistId; // Redirect back to the specific wishlist
+        return "redirect:/wishlist/" + wishlistId;
+    }
+    @GetMapping("/wishlist/{wishlistId}/edit-wish/{wishId}")
+    public String showEditWishForm(@PathVariable("wishlistId") int wishlistId, @PathVariable("wishId") int wishId, Model model) {
+        Wishitem wish = wishListService.getWishById(wishId);
+        model.addAttribute("wish", wish);
+        model.addAttribute("wishlistId", wishlistId);
+        return "edit-wish";
+    }
+
+
+    @PostMapping("/wishlist/{wishlistId}/edit-wish/{wishId}")
+    public String editWish(@PathVariable("wishlistId") int wishlistId, @PathVariable("wishId") int wishId, @ModelAttribute Wishitem wish) {
+        wish.setWishItemId(wishId);
+        wishListService.updateWishItem(wish);
+        return "redirect:/wishlist/" + wishlistId;
+    }
+    @GetMapping("/wishlist/{id}/edit")
+    public String showEditWishlistForm(@PathVariable("id") int wishlistId, Model model) {
+        Wishlist wishlist = wishListService.getWishlistById(wishlistId);
+        model.addAttribute("wishlist", wishlist);
+        return "edit-wishlist";
+    }
+    @PostMapping("/wishlist/{id}/edit")
+    public String editWishlist(@PathVariable("id") int wishlistId, @ModelAttribute Wishlist wishlist) {
+        wishlist.setWishListID(wishlistId);
+        wishListService.updateWishlist(wishlist);
+        return "redirect:/wishlist";
     }
 
 

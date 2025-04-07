@@ -11,11 +11,11 @@ public class WishitemRowMapper implements RowMapper<Wishitem> {
     @Override
     public Wishitem mapRow(ResultSet rs, int rowNum) throws SQLException {
         Wishitem wish = new Wishitem();
-        wish.setWishItemId(rs.getInt("wish_id")); // Use your column names
+        wish.setWishItemId(rs.getInt("wish_id"));
         wish.setWishItemName(rs.getString("wish_name"));
         wish.setWishItemDescription(rs.getString("wish_description"));
         wish.setWishUrl(rs.getString("wish_url"));
-        wish.setWishlistId(rs.getInt("wishlist_id")); // only if you added this field to Wishitem
+        wish.setWishlistId(rs.getInt("wishlist_id"));
         return wish;
     }
 }

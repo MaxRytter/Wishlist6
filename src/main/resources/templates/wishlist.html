@@ -16,6 +16,9 @@
         <a th:href="@{'/wishlist/' + ${wishlist.wishListID}}">
             <button>Vis ønskeseddel</button>
         </a>
+        <a th:href="@{'/wishlist/' + ${wishlist.getWishListID()} + '/edit'}">
+            <button>Rediger Navn</button>
+        </a>
 
 
     </li>

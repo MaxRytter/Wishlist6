@@ -17,20 +17,11 @@
             <button>Vis ønskeseddel</button>
         </a>
 
-        <a th:href="@{'/wishlist/' + ${wishlist.wishListID} + '/add-wish'}">
-            <button>Tilføj ønske</button>
-        </a>
+
     </li>
 </ul>
 
-<table>
-    <tr th:each="wishlist : ${wishlists}">
-        <td th:text="${wishlist.wishListName}"></td>
-        <td>
-            <a th:href="@{'/wishlist/delete/' + ${wishlist.getWishListID}}">Delete</a>
-        </td>
-    </tr>
-</table>
+
 
 
 <!-- Knap til at oprette ny ønskeseddel -->

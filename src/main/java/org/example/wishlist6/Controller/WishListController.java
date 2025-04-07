@@ -63,13 +63,19 @@ public class WishListController {
     @PostMapping("/wishlist/{id}/add-wish")
     public String addWishToWishlist(@PathVariable("id") int wishlistId, @ModelAttribute Wishitem wish) {
         wishListService.saveWishToWishlist(wishlistId, wish);
-        return "redirect:/wishlist";
+        return "redirect:/wishlist/{id}";
     }
     @GetMapping("/wishlist/delete/{id}")
     public String deleteWishlist(@PathVariable int id) {
         wishListService.deleteWishlistById(id);
         return "redirect:/wishlist";
     }
+    @GetMapping("/wishlist/{wishlistId}/delete-wish/{wishId}")
+    public String deleteWish(@PathVariable("wishlistId") int wishlistId, @PathVariable("wishId") int wishId) {
+        wishListService.deleteWishById(wishId);
+        return "redirect:/wishlist/" + wishlistId; // Redirect back to the specific wishlist
+    }
+
 
 
 //    @GetMapping("/wishlist/{id}")

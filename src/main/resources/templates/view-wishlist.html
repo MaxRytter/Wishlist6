@@ -10,13 +10,20 @@
 
 <ul>
   <li th:each="wish : ${wishes}">
-    <strong th:text="${wish.wishItemName}">Ønske</strong> -
-    <span th:text="${wish.wishItemDescription}">Beskrivelse</span> -
-    <a th:href="${wish.wishUrl}" th:if="${wish.wishUrl} != null">Link</a>
+    <strong>Ønske: </strong><span th:text="${wish.wishItemName}"></span> -
+    <strong>Beskrivelse: </strong><span th:text="${wish.wishItemDescription}"></span> -
+    <a th:href="${wish.wishUrl}" th:if="${wish.wishUrl} != null" target="_blank">Link til ønske</a>
+    <a th:href="@{'/wishlist/' + ${wishlist.getWishListID()} + '/delete-wish/' + ${wish.wishItemId}}">
+      <button>Delete wish</button>
+    </a>
   </li>
 </ul>
+<a th:href="@{'/wishlist/' + ${wishlist.wishListID} + '/add-wish'}">
+  <button>Tilføj ønske</button>
+</a>
 
 <a href="/wishlist"><button>Tilbage</button></a>
+<a th:href="@{'/wishlist/delete/' + ${wishlist.getWishListID}}">Delete Wishlist</a>
 
 </body>
 </html>

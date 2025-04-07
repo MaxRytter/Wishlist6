@@ -41,5 +41,9 @@ import java.util.List;
     public List<Wishitem> getWishesByWishlistId(int wishlistId) {
         return wishlistRepository.getWishesByWishlistId(wishlistId);
     }
+    public void deleteWishById(int wishId) {
+        wishlistRepository.deleteWishById(wishId); // Assumes you have a method to delete a wish by its ID in the repository
+    }
+
 
 }

@@ -1,41 +1,34 @@
 package org.example.wishlist6.Service;
 
-import org.example.wishlist6.Module.Wishlist;
 import org.example.wishlist6.Module.Wishitem;
-import org.example.wishlist6.Repository.WishlistRepository;
+import org.example.wishlist6.Module.Wishlist;
+import org.example.wishlist6.Repository.WishListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class WishListService {
+@org.springframework.stereotype.Service
+ public class WishListService {
 
     @Autowired
-    private WishlistRepository wishlistRepository;
-
+    public WishListRepository wishlistRepository;
 
     public void addWishlist(Wishlist wishlist) {
-        wishlistRepository.addWishlist(wishlist);
+        wishlistRepository.save(wishlist);
     }
 
-    public Wishitem getWishById(int id) {
-        return wishlistRepository.getWishById(id);
+    public void addWish(String wishlistName, String wishItemName, String wishItemDescription) {
     }
 
-    public void addWish(String wishlistName, String wishItemName, String wishItemDesc) {
+    public List<Wishlist> getAllWishlists() {
+        return wishlistRepository.findAll();
     }
 
     public void updateWish(int id, Wishitem wishItem) {
-        wishlistRepository.updateWish(id, wishItem);
     }
 
-    public void removeWish(int id) {
-        wishlistRepository.removeWish(id);
+    public void saveWishToWishlist(int wishlistId, Wishitem wish) {
+        wishlistRepository.saveWish(wishlistId, wish);
     }
 
-
-    public List<Wishlist> getAllWishlists() {
-        return wishlistRepository.getAllWishlists();
-    }
 }

@@ -14,7 +14,7 @@
     <strong th:text="${wish.wishItemName}"></strong> –
     <span th:text="${wish.wishItemDescription}"></span>
     <span th:text="${wish.wishItemPrice} + ' kr.'"></span>
-    <a th:if="${wish.linkToStore != null}" th:href="${wish.linkToStore}" target="_blank">(Link)</a>
+    <a th:if="${wish.wishUrl != null}" th:href="${wish.wishUrl}" target="_blank">(Link)</a>
   </li>
 </ul>
 

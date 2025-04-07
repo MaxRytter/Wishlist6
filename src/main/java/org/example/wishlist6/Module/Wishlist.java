@@ -14,6 +14,9 @@ public class Wishlist {
     public int getWishListID() {
         return wishListID;
     }
+    public void setWishListID(int wishListID) {
+        this.wishListID = wishListID;
+    }
 
     public String getWishListName() {
         return wishListName;

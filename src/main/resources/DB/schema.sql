@@ -21,7 +21,7 @@ CREATE TABLE wish (
                       wish_price DOUBLE,
                       wish_url VARCHAR(255),
                       wishlist_id INT,
-                      FOREIGN KEY (wishlist_id) REFERENCES wishlist(wishlist_id)
+                      FOREIGN KEY (wishlist_id) REFERENCES wishlist(wishlist_id) ON DELETE CASCADE
 );
 
 

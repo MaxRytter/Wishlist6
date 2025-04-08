@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Velkommen</title>
+</head>
+<body>
+<h1>Velkommen til din side</h1>
+<p th:text="'Du er logget ind som ' + ${userName} +' med e-mailen '+ ${userEmail}"> </p>
+
+<a href="/logout">
+  <button>Log ud
+</button>
+</a>
+
+
+</body>
+</html>

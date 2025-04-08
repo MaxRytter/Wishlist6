@@ -8,6 +8,13 @@
 
 <h2>Log ind</h2>
 
+<div th:if="${errorMessage}">
+    <p th:text="${errorMessage}">
+
+    </p>
+
+</div>
+
 
 <form th:action="@{/login}" method="post">
 <label for="userEmail">Email:</label>

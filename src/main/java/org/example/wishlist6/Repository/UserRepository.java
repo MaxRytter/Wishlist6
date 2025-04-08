@@ -4,6 +4,7 @@ import org.example.wishlist6.Module.User;
 import org.example.wishlist6.Module.Wishlist;
 import org.example.wishlist6.Rowmappers.UserRowMapper;
 import org.example.wishlist6.Rowmappers.WishlistRowMapper;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -57,5 +58,14 @@ public class UserRepository {
         String sql = "UPDATE userlist SET user_name = ?, user_email = ?, user_password = ? WHERE user_id = ?";
         jdbcTemplate.update(sql, user.getUserName(), user.getUserEmail(), user.getUserPassword(), user.getUserId());
     }
+
+public User findUserByEmail(String email) {
+        try {
+            String sql = "SELECT * from userlist WHERE user_email = ? ";
+            return jdbcTemplate.queryForObject(sql, new Object[] {email}, new UserRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+}
 
 }

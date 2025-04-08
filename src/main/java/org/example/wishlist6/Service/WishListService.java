@@ -6,7 +6,6 @@ import org.example.wishlist6.Module.Wishitem;
 import org.example.wishlist6.Repository.WishListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service

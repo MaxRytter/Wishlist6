@@ -4,8 +4,9 @@ public class Wishlist {
     private int wishListID;
     private String wishListName;
 
-    public Wishlist(String wishListName) {
+    public Wishlist(String wishListName, int wishListID) {
         this.wishListName = wishListName;
+        this.wishListID = wishListID;
     }
     public Wishlist(){
 

@@ -13,12 +13,19 @@
     <li th:each="wishlist : ${wishlists}">
         <span th:text="${wishlist.wishListName}"></span>
 
-        <!-- Knap til at tilføje ønske til ønskesedlen -->
-        <a th:href="@{'/wishlist/' + ${wishlist.wishListID} + '/add-wish'}">
-            <button>Tilføj ønske</button>
+        <a th:href="@{'/wishlist/' + ${wishlist.wishListID}}">
+            <button>Vis ønskeseddel</button>
         </a>
+        <a th:href="@{'/wishlist/' + ${wishlist.getWishListID()} + '/edit'}">
+            <button>Rediger Navn</button>
+        </a>
+
+
     </li>
 </ul>
+
+
+
 
 <!-- Knap til at oprette ny ønskeseddel -->
 <a href="/wishlist/create">

@@ -5,6 +5,9 @@ import org.example.wishlist6.Module.Wishlist;
 import org.example.wishlist6.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+
 
 import java.util.List;
 
@@ -23,52 +26,27 @@ public class UserService{
     public List<User> getAllUsers() {
         return userRepository.getAllUsers();
     }
-
-
-
-}
-/**
-import java.util.Scanner;
-
-public class UserRegistration {
-    private final WishlistRepository wishlistRepository;
-
-
-    public UserRegistration(WishlistRepository wishlistRepository) {
-        this.wishlistRepository = wishlistRepository;
+    public void deleteUserById(int id) {
+        userRepository.deleteUserById(id);
+    }
+    public void updateUser(User user) {
+        userRepository.updateUser(user);
+    }
+    public User getUserById(int userId) {
+        return userRepository.getUserById(userId);
     }
 
 
-    public void register() {
-
-        Scanner scanner = new Scanner(System.in);
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
-        System.out.println("Indtast brugernavn");
-        String userName = scanner.nextLine();
-
-        System.out.println("Indtast email");
-        String userEmail = scanner.nextLine();
-
-        System.out.println("Indtast password");
-        String passwordHash = scanner.nextLine();
-
-        // String passwordHash = passwordHash(password);
-
-
-        if (userName.isEmpty() || userEmail.isEmpty() || passwordHash.isEmpty()) {
-            System.out.println("Alle felter skal udfyldes.");
-            return;
+    public boolean authenticateUser(String userEmail, String userPassword) {
+        User user = userRepository.findUserByEmail(userEmail);
+        if (user !=null) {
+            return passwordEncoder.matches(userPassword, user.getUserPassword());
         }
-
-
-
-        User user = new User(userName, userEmail, passwordHash);
-        wishlistRepository.saveUser(user);
-
-
+        return false;
     }
 
-}
 
-**/
+}

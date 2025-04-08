@@ -1,6 +1,5 @@
 package org.example.wishlist6.Controller;
 
-import org.example.wishlist6.Module.User;
 import org.example.wishlist6.Module.Wishitem;
 import org.example.wishlist6.Module.Wishlist;
 import org.example.wishlist6.Service.WishListService;
@@ -44,42 +43,64 @@ public class WishListController {
         wishListService.addWishlist(wishlist);
         return "redirect:/wishlist";
     }
-
-
-    @GetMapping("/register")
-    public String showRegisterForm(Model model) {
-        model.addAttribute("user", new User());
-        return "register";
-    }
-
-    @PostMapping("/register")
-    public String registerUser(@ModelAttribute User user) {
-        wishListService.saveUser(user);
-        return "redirect:/";
-    }
-
-
-    @GetMapping("/wishlist/{wishlistId}/add-wish")
-    public String showAddWishForm(@PathVariable int wishlistId, Model model) {
-        model.addAttribute("wish", new Wishitem());
-        model.addAttribute("wishlistId", wishlistId);
-        return "add-wish";
-    }
-
-    @PostMapping("/wishlist/{wishlistId}/add-wish")
-    public String addWishToWishlist(@PathVariable int wishlistId, @ModelAttribute Wishitem wishItem) {
-        wishListService.saveWish(wishlistId, wishItem);
-        return "redirect:/wishlist"; // evt. redirect til specifik ønskeseddel-side
-    }
     @GetMapping("/wishlist/{id}")
-    public String viewWishlist(@PathVariable int id, Model model) {
-        Wishlist wishlist = wishListService.getWishlistById(id);
-        List<Wishitem> wishes = wishListService.getWishesByWishlistId(id);
+    public String viewWishlist(@PathVariable("id") int wishlistId, Model model) {
+        Wishlist wishlist = wishListService.getWishlistById(wishlistId); // includes name etc.
+        List<Wishitem> wishes = wishListService.getWishesByWishlistId(wishlistId); // all wishes
 
         model.addAttribute("wishlist", wishlist);
         model.addAttribute("wishes", wishes);
+        return "view-wishlist";
+    }
 
-        return "wishlist-details";
+    @GetMapping("/wishlist/{id}/add-wish")
+    public String showAddWishForm(@PathVariable("id") int wishlistId, Model model) {
+        model.addAttribute("wishlistId", wishlistId);
+        model.addAttribute("wish", new Wishitem());
+        return "add-wish";
+    }
+
+    @PostMapping("/wishlist/{id}/add-wish")
+    public String addWishToWishlist(@PathVariable("id") int wishlistId, @ModelAttribute Wishitem wish) {
+        wishListService.saveWishToWishlist(wishlistId, wish);
+        return "redirect:/wishlist/{id}";
+    }
+    @GetMapping("/wishlist/delete/{id}")
+    public String deleteWishlist(@PathVariable int id) {
+        wishListService.deleteWishlistById(id);
+        return "redirect:/wishlist";
+    }
+    @GetMapping("/wishlist/{wishlistId}/delete-wish/{wishId}")
+    public String deleteWish(@PathVariable("wishlistId") int wishlistId, @PathVariable("wishId") int wishId) {
+        wishListService.deleteWishById(wishId);
+        return "redirect:/wishlist/" + wishlistId;
+    }
+    @GetMapping("/wishlist/{wishlistId}/edit-wish/{wishId}")
+    public String showEditWishForm(@PathVariable("wishlistId") int wishlistId, @PathVariable("wishId") int wishId, Model model) {
+        Wishitem wish = wishListService.getWishById(wishId);
+        model.addAttribute("wish", wish);
+        model.addAttribute("wishlistId", wishlistId);
+        return "edit-wish";
+    }
+
+
+    @PostMapping("/wishlist/{wishlistId}/edit-wish/{wishId}")
+    public String editWish(@PathVariable("wishlistId") int wishlistId, @PathVariable("wishId") int wishId, @ModelAttribute Wishitem wish) {
+        wish.setWishItemId(wishId);
+        wishListService.updateWishItem(wish);
+        return "redirect:/wishlist/" + wishlistId;
+    }
+    @GetMapping("/wishlist/{id}/edit")
+    public String showEditWishlistForm(@PathVariable("id") int wishlistId, Model model) {
+        Wishlist wishlist = wishListService.getWishlistById(wishlistId);
+        model.addAttribute("wishlist", wishlist);
+        return "edit-wishlist";
+    }
+    @PostMapping("/wishlist/{id}/edit")
+    public String editWishlist(@PathVariable("id") int wishlistId, @ModelAttribute Wishlist wishlist) {
+        wishlist.setWishListID(wishlistId);
+        wishListService.updateWishlist(wishlist);
+        return "redirect:/wishlist";
     }
 
 

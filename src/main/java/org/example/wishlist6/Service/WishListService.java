@@ -1,54 +1,42 @@
 package org.example.wishlist6.Service;
 
-import org.example.wishlist6.Module.User;
-import org.example.wishlist6.Module.Wishlist;
 import org.example.wishlist6.Module.Wishitem;
+import org.example.wishlist6.Module.Wishlist;
 import org.example.wishlist6.Repository.WishListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-@Service
-public class WishListService {
+@org.springframework.stereotype.Service
+ public class WishListService {
 
     @Autowired
-    private WishListRepository wishlistRepository;
-
+    public WishListRepository wishlistRepository;
 
     public void addWishlist(Wishlist wishlist) {
         wishlistRepository.addWishlist(wishlist);
     }
 
-    public Wishitem getWishById(int id) {
-        return wishlistRepository.getWishById(id);
+    public void addWish(String wishlistName, String wishItemName, String wishItemDescription) {
     }
-
-    public void addWish(String wishlistName, String wishItemName, String wishItemDesc) {
-    }
-
-    public void updateWish(int id, Wishitem wishItem) {
-        wishlistRepository.updateWish(id, wishItem);
-    }
-
-    public void removeWish(int id) {
-        wishlistRepository.removeWish(id);
-    }
-
 
     public List<Wishlist> getAllWishlists() {
         return wishlistRepository.getAllWishlists();
     }
-
-
-    public void saveUser(User user) {
-        wishlistRepository.saveUser(user);
+    public void updateWishlist(Wishlist wishlist) {
+        wishlistRepository.updateWishlist(wishlist);
     }
 
-    public void saveWish(int wishlistId, Wishitem wishItem) {
-        wishlistRepository.saveWish(wishlistId, wishItem);
+    public void updateWish(int id, Wishitem wishItem) {
     }
 
-
+    public void saveWishToWishlist(int wishlistId, Wishitem wish) {
+        wish.setWishlistId(wishlistId);
+        wishlistRepository.saveWish(wish);
+    }
+    public void deleteWishlistById(int id) {
+        wishlistRepository.deleteWishlistById(id);
+    }
     public Wishlist getWishlistById(int id) {
         return wishlistRepository.getWishlistById(id);
     }
@@ -56,5 +44,19 @@ public class WishListService {
     public List<Wishitem> getWishesByWishlistId(int wishlistId) {
         return wishlistRepository.getWishesByWishlistId(wishlistId);
     }
+    public void deleteWishById(int wishId) {
+        wishlistRepository.deleteWishById(wishId);
+    }
+    public Wishitem getWishById(int wishId) {
+        return wishlistRepository.findWishById(wishId);
+    }
+
+
+    public void updateWishItem(Wishitem wish) {
+        wishlistRepository.updateWishInfo(wish);
+    }
+
+
+
 
 }

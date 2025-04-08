@@ -36,18 +36,23 @@ public class WishListControllerTest {
 
     @Test
     public void testGetAllWishlists() throws Exception {
+        // Mocked data, make sure we set the wishListID explicitly
         List<Wishlist> wishlists = Arrays.asList(
                 new Wishlist("Wishlist 1", 1),
                 new Wishlist("Wishlist 2", 2)
         );
+
+        // Mock the service call to return the mocked wishlists
         when(wishListService.getAllWishlists()).thenReturn(wishlists);
 
+        // Perform the request and check the result
         mockMvc.perform(get("/wishlist"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("wishlist"))
-                .andExpect(model().attributeExists("wishlists"))
-                .andExpect(model().attribute("wishlists", wishlists));
+                .andExpect(status().isOk()) // Status is 200 OK
+                .andExpect(view().name("wishlist")) // Check if the view name is "wishlist"
+                .andExpect(model().attributeExists("wishlists")) // Check if "wishlists" is in the model
+                .andExpect(model().attribute("wishlists", wishlists)); // Check if the model contains the correct wishlists
     }
+
 
     @Test
     public void testShowCreateWishlistForm() throws Exception {

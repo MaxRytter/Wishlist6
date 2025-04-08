@@ -9,6 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.KeyHolder;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -57,15 +62,27 @@ public class UserRepositoryTest {
     @Test
     public void testAddUser() {
         // Arrange
-        String sql = "INSERT INTO userlist (user_name, user_email, user_password) VALUES (?, ?, ?)";
-        when(jdbcTemplate.update(eq(sql), anyString(), anyString(), anyString())).thenReturn(1);
+        User user = new User("John Doe", "john@example.com", "password", 0);
+
+        // Mock JdbcTemplate update method
+        when(jdbcTemplate.update(any(PreparedStatementCreator.class), any(KeyHolder.class)))
+                .thenAnswer(invocation -> {
+                    KeyHolder keyHolder = invocation.getArgument(1);
+
+                    // Simulate generated key by adding it to the keyHolder's keyList
+                    Map<String, Object> generatedKey = new HashMap<>();
+                    generatedKey.put("id", 123);  // Simulating the generated ID from the DB
+                    keyHolder.getKeyList().add(generatedKey);
+
+                    return 1;  // Simulate successful update (1 row affected)
+                });
 
         // Act
-        int result = userRepository.addUser(user);
+        int generatedUserId = userRepository.addUser(user);
 
         // Assert
-        verify(jdbcTemplate, times(1)).update(eq(sql), anyString(), anyString(), anyString());
-        assertEquals(1, result);  // Checking if the return value is the generated ID
+        assertEquals(123, generatedUserId);  // Verify the returned user ID is correct
+        verify(jdbcTemplate, times(1)).update(any(PreparedStatementCreator.class), any(KeyHolder.class));
     }
 
     @Test

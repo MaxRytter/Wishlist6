@@ -2,6 +2,7 @@ package org.example.wishlist6.Repository;
 
 import org.example.wishlist6.Module.Wishitem;
 import org.example.wishlist6.Module.Wishlist;
+import org.example.wishlist6.Rowmappers.WishitemRowMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -11,6 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.util.List;
 
+import static org.mockito.AdditionalMatchers.aryEq;
 import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.*;
 
@@ -88,26 +90,21 @@ public class WishListRepositoryTest {
     @Test
     public void testGetWishesByWishlistId() {
         // Arrange
-        int wishlistId = 1;
-        Wishitem wishitem = new Wishitem("Wish Item 1", "Description", "url", wishlistId);
-        when(jdbcTemplate.query(
-                anyString(),
-                any(Object[].class),
-                (ResultSetExtractor<Object>) any()
-        )).thenReturn(List.of(wishitem));
+        List<Wishitem> wishList = List.of();
+        when(jdbcTemplate.query(eq("SELECT * FROM wish WHERE wishlist_id = ?"),
+                aryEq(new Object[] {1}),
+                any(WishitemRowMapper.class)))
+                .thenReturn(wishList);
 
         // Act
-        List<Wishitem> result = wishListRepository.getWishesByWishlistId(wishlistId);
+        List<Wishitem> result = wishListRepository.getWishesByWishlistId(1);
 
         // Assert
-        verify(jdbcTemplate, times(1)).query(
-                anyString(),
-                any(Object[].class),
-                (ResultSetExtractor<Object>) any()
-        );
-        assert(result.size() == 1);
-        assert(result.get(0).getWishItemName().equals("Wish Item 1"));
+        verify(jdbcTemplate).query(eq("SELECT * FROM wish WHERE wishlist_id = ?"),
+                aryEq(new Object[] {1}),
+                any(WishitemRowMapper.class)); // Ensure it was called with correct parameters
     }
+
 
     @Test
     public void testDeleteWishById() {

@@ -33,15 +33,18 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testAddUser() {
+    void testAddUser() {
         // Arrange
-        doNothing().when(userRepository).addUser(any(User.class));
+        User user = new User("testUser", "test@example.com", "password123", 0);
+        int generatedId = 1;
+
+        when(userRepository.addUser(any(User.class))).thenReturn(generatedId);
 
         // Act
         userService.addUser(user);
 
         // Assert
-        verify(userRepository, times(1)).addUser(any(User.class));
+        verify(userRepository, times(1)).addUser(user);
     }
 
     @Test
@@ -101,4 +104,30 @@ public class UserServiceTest {
         assertEquals(user.getUserEmail(), result.getUserEmail());
         assertEquals(user.getUserPassword(), result.getUserPassword());
     }
+
+    @Test
+    public void testAuthenticateUser_InvalidEmail() {
+        // Arrange
+        when(userRepository.findUserByEmail(anyString())).thenReturn(null);
+
+        // Act
+        boolean isAuthenticated = userService.authenticateUser("invalid@example.com", "password123");
+
+        // Assert
+        assertFalse(isAuthenticated);
+    }
+
+    @Test
+    public void testAuthenticateUser_InvalidPassword() {
+        // Arrange
+        User user = new User("John Doe", "john@example.com", "correctpassword", 1);
+        when(userRepository.findUserByEmail("john@example.com")).thenReturn(user);
+
+        // Act
+        boolean isAuthenticated = userService.authenticateUser("john@example.com", "wrongpassword");
+
+        // Assert
+        assertFalse(isAuthenticated);
+    }
+
 }

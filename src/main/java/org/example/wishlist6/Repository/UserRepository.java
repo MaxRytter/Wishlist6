@@ -45,6 +45,19 @@ public class UserRepository {
 
         return keyHolder.getKey().intValue();
     }
+    public void deleteUserById(int id) {
+        String sql = "DELETE FROM userlist WHERE user_id = ?";
+        jdbcTemplate.update(sql, id);
+    }
+    public User getUserById(int userId) {
+        String sql = "SELECT * FROM userlist WHERE user_id = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[]{userId}, new UserRowMapper());
+
+    }
+    public void updateUser(User user) {
+        String sql = "UPDATE userlist SET user_name = ?, user_email = ?, user_password = ? WHERE user_id = ?";
+        jdbcTemplate.update(sql, user.getUserName(), user.getUserEmail(), user.getUserPassword(), user.getUserId());
+    }
 
 public User findUserByEmail(String email) {
         try {

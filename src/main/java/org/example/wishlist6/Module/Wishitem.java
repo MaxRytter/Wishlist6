@@ -4,21 +4,33 @@ public class Wishitem {
     private int wishItemId;
     private String wishItemName;
     private String wishItemDescription;
-    private double wishItemPrice;
-    private String linkToStore;
+    private String wishUrl; // <-- matcher kolonnen 'wish_url' i databasen
+    private int wishlistId;
 
-    public Wishitem(String wishItemName, String wishItemDescription, double wishItemPrice, String linkToStore) {
+    public Wishitem(String wishItemName, String wishItemDescription, String wishUrl, int wishlistId) {
         this.wishItemName = wishItemName;
         this.wishItemDescription = wishItemDescription;
-        this.wishItemPrice = wishItemPrice;
-        this.linkToStore = linkToStore;
-    }
-    public Wishitem(){
+        this.wishUrl = wishUrl;
+        this.wishlistId = wishlistId;
 
     }
 
-    public int getWishItemID() {
+    public Wishitem() {}
+
+    public int getWishlistId() {
+        return wishlistId;
+    }
+
+    public void setWishlistId(int wishlistId) {
+        this.wishlistId = wishlistId;
+    }
+
+    public int getWishItemId() {
         return wishItemId;
+    }
+
+    public void setWishItemId(int wishItemId) {
+        this.wishItemId = wishItemId;
     }
 
     public String getWishItemName() {
@@ -37,19 +49,12 @@ public class Wishitem {
         this.wishItemDescription = wishItemDescription;
     }
 
-    public double getWishItemPrice() {
-        return wishItemPrice;
+
+    public String getWishUrl() {
+        return wishUrl;
     }
 
-    public void setWishItemPrice(double wishItemPrice) {
-        this.wishItemPrice = wishItemPrice;
-    }
-
-    public String getLinkToStore() {
-        return linkToStore;
-    }
-
-    public void setLinkToStore(String linkToStore) {
-        this.linkToStore = linkToStore;
+    public void setWishUrl(String wishUrl) {
+        this.wishUrl = wishUrl;
     }
 }

@@ -26,6 +26,15 @@ public class UserService{
     public List<User> getAllUsers() {
         return userRepository.getAllUsers();
     }
+    public void deleteUserById(int id) {
+        userRepository.deleteUserById(id);
+    }
+    public void updateUser(User user) {
+        userRepository.updateUser(user);
+    }
+    public User getUserById(int userId) {
+        return userRepository.getUserById(userId);
+    }
 
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

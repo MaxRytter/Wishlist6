@@ -7,10 +7,11 @@ public class User {
     private String userPassword;
     //tilføj map senere
 
-    public User(String userName, String userEmail, String userPassword) {
+    public User(String userName, String userEmail, String userPassword, int userId) {
         this.userName = userName;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
+        this.userId = userId;
     }
 
     public User() {

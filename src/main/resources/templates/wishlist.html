@@ -2,28 +2,40 @@
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Your Wishlists</title>
+    <title>Dine ønskesedler</title>
 </head>
 <body>
-<h1>Your Wishlists</h1>
 
-<!-- Display the wishlists -->
-<h2>Your Wishlists:</h2>
+<h1>Dine ønskesedler</h1>
+
+<!-- Liste over ønskesedler -->
 <ul>
-    <!-- Iterate through each wishlist and display -->
     <li th:each="wishlist : ${wishlists}">
         <span th:text="${wishlist.wishListName}"></span>
+
+        <a th:href="@{'/wishlist/' + ${wishlist.wishListID}}">
+            <button>Vis ønskeseddel</button>
+        </a>
+        <a th:href="@{'/wishlist/' + ${wishlist.getWishListID()} + '/edit'}">
+            <button>Rediger Navn</button>
+        </a>
+
+
     </li>
 </ul>
 
-<!-- Button to create a new wishlist -->
+
+
+
+<!-- Knap til at oprette ny ønskeseddel -->
 <a href="/wishlist/create">
-    <button>Create Wishlist</button>
+    <button>Opret ny ønskeseddel</button>
 </a>
 
-<!-- Button to go back to the front page -->
+<!-- Knap til at gå tilbage til forsiden -->
 <a href="/">
-    <button>Back to Home</button>
+    <button>Til forsiden</button>
 </a>
+
 </body>
 </html>

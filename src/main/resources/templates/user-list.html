@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+        <html lang="da" xmlns:th="http://www.thymeleaf.org">
+        <head>
+        <meta charset="UTF-8">
+        <title>All Users</title>
+</head>
+<body>
+<h1>All Users</h1>
+
+<!-- Display users in a table -->
+<table>
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.userName}"></td>
+        <td>
+            <!-- Edit User Button -->
+            <a th:href="@{'/user/' + ${user.getUserId()} + '/edit'}">
+                <button>Edit Info</button>
+            </a>
+            <!-- Delete User Button -->
+            <a th:href="@{'/user/delete/' + ${user.getUserId()}}">
+                <button>Delete User</button>
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Link to create a new user -->
+<a href="/user/create">
+    <button>Create User</button>
+</a>
+
+<!-- Link to go back to the home page -->
+<a href="/">
+    <button>Back to Home</button>
+</a>
+
+</body>
+</html>
+</title>
+</head>
+<body>
+
+</body>
+</html>

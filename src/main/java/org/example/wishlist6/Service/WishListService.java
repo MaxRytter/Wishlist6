@@ -1,5 +1,9 @@
 package org.example.wishlist6.Service;
 
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.example.wishlist6.Rowmappers.WishlistRowMapper;
 import org.example.wishlist6.Module.Wishitem;
 import org.example.wishlist6.Module.Wishlist;
 import org.example.wishlist6.Repository.WishListRepository;
@@ -11,18 +15,30 @@ import java.util.List;
  public class WishListService {
 
     @Autowired
+    private JdbcTemplate jdbcTemplate;
     public WishListRepository wishlistRepository;
 
-    public void addWishlist(Wishlist wishlist) {
+    public void addWishlist(Wishlist wishlist, int userId) {
+        wishlist.setUserId(userId);
         wishlistRepository.addWishlist(wishlist);
     }
 
     public void addWish(String wishlistName, String wishItemName, String wishItemDescription) {
     }
 
+    /**
     public List<Wishlist> getAllWishlists() {
         return wishlistRepository.getAllWishlists();
     }
+**/
+
+public List<Wishlist> getWishlistsByUserId(int userId) {
+    String sql = "SELECT * FROM wishlist WHERE user_id = ?";
+    RowMapper<Wishlist> rowMapper = new WishlistRowMapper();
+    return jdbcTemplate.query(sql, new Object[]{userId}, rowMapper);
+}
+
+
     public void updateWishlist(Wishlist wishlist) {
         wishlistRepository.updateWishlist(wishlist);
     }

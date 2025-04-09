@@ -1,9 +1,13 @@
 package org.example.wishlist6.Controller;
 
+import org.springframework.security.core.Authentication;
+import org.example.wishlist6.Module.User;
 import org.example.wishlist6.Module.Wishitem;
 import org.example.wishlist6.Module.Wishlist;
+import org.example.wishlist6.Service.UserService;
 import org.example.wishlist6.Service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +16,8 @@ import java.util.List;
 
 @Controller
 public class WishListController {
+    @Autowired
+    private UserService userService;
 
     private final WishListService wishListService;
 
@@ -24,9 +30,21 @@ public class WishListController {
         return "index";
     }
 
+    /**
     @GetMapping("/wishlist")
     public String getWishlist(Model model) {
         List<Wishlist> wishlists = wishListService.getAllWishlists();
+        model.addAttribute("wishlists", wishlists);
+        return "wishlist";
+    }
+
+
+    **/
+
+    @GetMapping("/wishlist")
+    public String getUserWishlists(@AuthenticationPrincipal Model model, Authentication authentication) {
+        User user = userService.getUserByEmail(authentication.getName());
+        List<Wishlist> wishlists = wishListService.getWishlistsByUserId(user.getUserId());
         model.addAttribute("wishlists", wishlists);
         return "wishlist";
     }
@@ -38,9 +56,11 @@ public class WishListController {
         return "add-wishlist";
     }
 
+
     @PostMapping("/wishlist/create")
-    public String addWishlist(@ModelAttribute Wishlist wishlist) {
-        wishListService.addWishlist(wishlist);
+    public String addWishlist(@ModelAttribute Wishlist wishlist, Authentication authentication) {
+        User user = userService.getUserByEmail(authentication.getName());
+        wishListService.addWishlist(wishlist, user.getUserId());
         return "redirect:/wishlist";
     }
     @GetMapping("/wishlist/{id}")

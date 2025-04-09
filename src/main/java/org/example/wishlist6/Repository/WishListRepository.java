@@ -25,12 +25,24 @@ public class WishListRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+
+    /**
     // Henter alle ønskesedler
     public List<Wishlist> getAllWishlists() {
         String sql = "SELECT * FROM wishlist";
         RowMapper<Wishlist> rowMapper = new WishlistRowMapper();
         return jdbcTemplate.query(sql, rowMapper);
     }
+
+    **/
+
+    public List<Wishlist> getWishlistsByUserId(int userId) {
+        String sql = "SELECT * FROM wishlist WHERE user_id = ?";
+        RowMapper<Wishlist> rowMapper = new WishlistRowMapper();
+        return jdbcTemplate.query(sql, new Object[]{userId}, rowMapper);
+    }
+
+
 
     //Gemmer ønskeseddel og returnerer genereret ID
     public int addWishlist(Wishlist wishlist) {

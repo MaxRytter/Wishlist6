@@ -12,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,16 +34,13 @@ public class UserServiceTest {
     @Test
     void testAddUser() {
         // Arrange
-        User user = new User("testUser", "test@example.com", "password123", 0);
-        int generatedId = 1;
-
-        when(userRepository.addUser(any(User.class))).thenReturn(generatedId);
+        User newUser = new User("testUser", "test@example.com", "password123", 0);
 
         // Act
-        userService.addUser(user);
+        userService.addUser(newUser);
 
         // Assert
-        verify(userRepository, times(1)).addUser(user);
+        verify(userRepository, times(1)).addUser(newUser);
     }
 
     @Test
@@ -67,25 +63,22 @@ public class UserServiceTest {
     @Test
     public void testDeleteUserById() {
         // Arrange
-        doNothing().when(userRepository).deleteUserById(anyInt());
+        int userId = 1;
 
         // Act
-        userService.deleteUserById(1);
+        userService.deleteUserById(userId);
 
         // Assert
-        verify(userRepository, times(1)).deleteUserById(1);
+        verify(userRepository, times(1)).deleteUserById(userId);
     }
 
     @Test
     public void testUpdateUser() {
-        // Arrange
-        doNothing().when(userRepository).updateUser(any(User.class));
-
-        // Act
+        // Arrange & Act
         userService.updateUser(user);
 
         // Assert
-        verify(userRepository, times(1)).updateUser(any(User.class));
+        verify(userRepository, times(1)).updateUser(user);
     }
 
     @Test
@@ -106,28 +99,41 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testAuthenticateUser_InvalidEmail() {
+    public void testAuthenticateAndGetUser_ValidCredentials() {
         // Arrange
-        when(userRepository.findUserByEmail(anyString())).thenReturn(null);
+        String email = "john@example.com";
+        String password = "password123";
+        when(userRepository.getUserByEmail(email)).thenReturn(user);
 
         // Act
-        boolean isAuthenticated = userService.authenticateUser("invalid@example.com", "password123");
+        User result = userService.authenticateAndGetUser(email, password);
 
         // Assert
-        assertFalse(isAuthenticated);
+        assertNotNull(result);
+        assertEquals(user, result);
     }
 
     @Test
-    public void testAuthenticateUser_InvalidPassword() {
+    public void testAuthenticateAndGetUser_InvalidEmail() {
         // Arrange
-        User user = new User("John Doe", "john@example.com", "correctpassword", 1);
-        when(userRepository.findUserByEmail("john@example.com")).thenReturn(user);
+        when(userRepository.getUserByEmail("notfound@example.com")).thenReturn(null);
 
         // Act
-        boolean isAuthenticated = userService.authenticateUser("john@example.com", "wrongpassword");
+        User result = userService.authenticateAndGetUser("notfound@example.com", "password123");
 
         // Assert
-        assertFalse(isAuthenticated);
+        assertNull(result);
     }
 
+    @Test
+    public void testAuthenticateAndGetUser_InvalidPassword() {
+        // Arrange
+        when(userRepository.getUserByEmail("john@example.com")).thenReturn(user);
+
+        // Act
+        User result = userService.authenticateAndGetUser("john@example.com", "wrongpass");
+
+        // Assert
+        assertNull(result);
+    }
 }

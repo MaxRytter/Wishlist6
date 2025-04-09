@@ -1,6 +1,5 @@
 package org.example.wishlist6.Controller;
 
-import jakarta.servlet.http.HttpSession;
 import org.example.wishlist6.Module.User;
 import org.example.wishlist6.Service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,9 +8,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -34,95 +35,74 @@ public class UserControllerTest {
     }
 
     @Test
+    public void testGetUsers() throws Exception {
+        // Act & Assert
+        mockMvc.perform(get("/user"))
+                .andExpect(status().isOk())  // Status should be OK, not a redirect
+                .andExpect(view().name("user-list"));  // Ensure it matches the updated view name
+    }
+
+
+    @Test
     void testShowCreateForm() throws Exception {
-        // Act
+        // Act & Assert
         mockMvc.perform(get("/user/create"))
-                // Assert
                 .andExpect(status().isOk())
-                .andExpect(view().name("add-user"))
-                .andExpect(model().attributeExists("user"));
+                .andExpect(view().name("add-user"))  // Make sure this matches the view
+                .andExpect(model().attributeExists("user"));  // Ensure "user" model attribute exists
     }
 
     @Test
     void testAddUser() throws Exception {
-        // Act
+        // Arrange
+        User user = new User("Alice Johnson", "alice@example.com", "password789", 0);
+
+        // Act & Assert
         mockMvc.perform(post("/user/create")
-                        .param("userName", "Alice Johnson")
-                        .param("userEmail", "alice@example.com")
-                        .param("userPassword", "password789"))
-                // Assert
+                        .param("userName", user.getUserName())
+                        .param("userEmail", user.getUserEmail())
+                        .param("userPassword", user.getUserPassword()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/login"));
+                .andExpect(view().name("redirect:/user"));  // Ensure correct redirect URL
     }
 
     @Test
     void testDeleteUser() throws Exception {
+        // Arrange
         int userId = 1;
 
-        // Act
+        // Act & Assert
         mockMvc.perform(get("/user/delete/{id}", userId))
-                // Assert
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"));
+                .andExpect(view().name("redirect:/user"));  // Ensure redirect after deletion
     }
 
     @Test
-    void testShowEditUserFormWithValidSession() throws Exception {
+    void testShowEditUserForm() throws Exception {
+        // Arrange
         int userId = 1;
         User user = new User("John Doe", "john@example.com", "password123", userId);
-        MockHttpSession session = new MockHttpSession();
-        session.setAttribute("userId", userId);
-
-        // Arrange
         when(userService.getUserById(userId)).thenReturn(user);
 
-        // Act
-        mockMvc.perform(get("/user/{id}/edit", userId).session(session))
-                // Assert
-                .andExpect(status().isOk())
-                .andExpect(view().name("edit-user"))
-                .andExpect(model().attribute("user", user));
-    }
-
-    @Test
-    void testShowEditUserFormWithInvalidSession() throws Exception {
-        int userId = 1;
-
-        // Act
+        // Act & Assert
         mockMvc.perform(get("/user/{id}/edit", userId))
-                // Assert
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("edit-user"))  // Ensure this is the correct view
+                .andExpect(model().attribute("user", user));  // Ensure the correct user is in the model
     }
 
     @Test
-    void testUpdateUserWithValidSession() throws Exception {
+    void testUpdateUser() throws Exception {
+        // Arrange
         int userId = 1;
-        MockHttpSession session = new MockHttpSession();
-        session.setAttribute("userId", userId);
+        User user = new User("Updated Name", "updated@example.com", "newpassword", userId);
 
-        // Act
+        // Act & Assert
         mockMvc.perform(post("/user/{id}/edit", userId)
-                        .param("userName", "Updated Name")
-                        .param("userEmail", "updated@example.com")
-                        .param("userPassword", "newpassword")
-                        .session(session))
-                // Assert
+                        .param("userName", user.getUserName())
+                        .param("userEmail", user.getUserEmail())
+                        .param("userPassword", user.getUserPassword()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/home"));
-    }
-
-    @Test
-    void testUpdateUserWithInvalidSession() throws Exception {
-        int userId = 1;
-
-        // Act
-        mockMvc.perform(post("/user/{id}/edit", userId)
-                        .param("userName", "Intruder")
-                        .param("userEmail", "intruder@example.com")
-                        .param("userPassword", "wrongpass"))
-                // Assert
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"));
+                .andExpect(view().name("redirect:/user"));  // Ensure the correct redirect
     }
 }

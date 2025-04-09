@@ -33,6 +33,16 @@
 <a href="/home">
     <button>Tilbage</button>
 </a>
+<ul>
+    <li th:each="wishlist : ${wishlists}">
+        <span th:text="${wishlist.wishListName}"></span>
+
+        <!-- Klik for at se ønskesedlen og dens ønsker -->
+        <a th:href="@{'/wishlist/' + ${wishlist.wishListID}}">
+            <button>Se ønskeseddel</button>
+        </a>
+    </li>
+</ul>
 
 </body>
 </html>

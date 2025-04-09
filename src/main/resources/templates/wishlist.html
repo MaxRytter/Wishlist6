@@ -16,9 +16,6 @@
         <a th:href="@{'/wishlist/' + ${wishlist.wishListID}}">
             <button>Vis ønskeseddel</button>
         </a>
-        <a th:href="@{'/wishlist/' + ${wishlist.getWishListID()} + '/edit'}">
-            <button>Rediger Navn</button>
-        </a>
 
 
     </li>
@@ -33,8 +30,8 @@
 </a>
 
 <!-- Knap til at gå tilbage til forsiden -->
-<a href="/">
-    <button>Til forsiden</button>
+<a href="/home">
+    <button>Tilbage</button>
 </a>
 <ul>
     <li th:each="wishlist : ${wishlists}">

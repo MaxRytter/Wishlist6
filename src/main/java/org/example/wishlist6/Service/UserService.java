@@ -35,15 +35,17 @@ public class UserService{
     public User getUserById(int userId) {
         return userRepository.getUserById(userId);
     }
+    public User getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
 
-
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
     public boolean authenticateUser(String userEmail, String userPassword) {
         User user = userRepository.findUserByEmail(userEmail);
         if (user !=null) {
-            return passwordEncoder.matches(userPassword, user.getUserPassword());
+            return userPassword.equals(user.getUserPassword());
         }
         return false;
     }

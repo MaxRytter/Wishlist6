@@ -14,13 +14,11 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    // Show login page
     @GetMapping("/login")
     public String showLoginPage() {
         return "login";
     }
 
-    // Handle login form submission
     @PostMapping("/login")
     public String loginUser(
             @RequestParam String userEmail,
@@ -28,7 +26,6 @@ public class LoginController {
             HttpSession session,
             Model model
     ) {
-        // Print incoming login data
         System.out.println("Login attempt: " + userEmail + " / " + userPassword);
 
         User user = userService.authenticateAndGetUser(userEmail, userPassword);
@@ -62,7 +59,7 @@ public class LoginController {
         User user = userService.getUserById(userId);
         model.addAttribute("user", user);
         model.addAttribute("userName", user.getUserName());
-        return "home";  // or whatever view you're showing
+        return "home";
     }
 
 }

@@ -1,11 +1,9 @@
 package org.example.wishlist6.Repository;
 
-import org.example.wishlist6.Module.User;
 import org.example.wishlist6.Module.Wishitem;
 import org.example.wishlist6.Module.Wishlist;
 import org.example.wishlist6.Rowmappers.WishitemRowMapper;
 import org.example.wishlist6.Rowmappers.WishlistRowMapper;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -33,7 +31,7 @@ public class WishListRepository {
     }
 
     //Gemmer ønskeseddel og returnerer genereret ID
-    public int addWishlist(Wishlist wishlist) {
+    public void addWishlist(Wishlist wishlist) {
         String sql = "INSERT INTO wishlist (wishlist_name) VALUES (?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -43,7 +41,7 @@ public class WishListRepository {
             return ps;
         }, keyHolder);
 
-        return keyHolder.getKey().intValue();
+        keyHolder.getKey().intValue();
     }
 
     // Gemmer et ønske til en ønskeseddel
@@ -66,6 +64,10 @@ public class WishListRepository {
     public Wishlist getWishlistById(int id) {
         String sql = "SELECT * FROM wishlist WHERE wishlist_id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new WishlistRowMapper());
+    }
+    public List<Wishlist> findWishlistsByUserId(Integer userId) {
+        String sql = "SELECT * FROM wishlist WHERE user_id = ?";
+        return jdbcTemplate.query(sql, new Object[]{userId}, new WishlistRowMapper());
     }
 
     public List<Wishitem> getWishesByWishlistId(int wishlistId) {
@@ -92,6 +94,15 @@ public class WishListRepository {
     public void updateWishlist(Wishlist wishlist) {
         String sql = "UPDATE wishlist SET wishlist_name = ? WHERE wishlist_id = ?";
         jdbcTemplate.update(sql, wishlist.getWishListName(), wishlist.getWishListID());
+    }
+    public void saveWishlist(Wishlist wishlist) {
+        String sql = "INSERT INTO wishlist (wishlist_name, user_id) VALUES (?, ?)";
+
+        System.out.println("Executing SQL: " + sql + " with values " + wishlist.getWishListName() + ", " + wishlist.getUserId());
+
+        jdbcTemplate.update(sql, wishlist.getWishListName(), wishlist.getUserId());
+
+        System.out.println("Wishlist saved in database.");
     }
 
 

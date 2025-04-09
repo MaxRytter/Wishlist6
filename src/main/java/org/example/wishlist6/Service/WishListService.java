@@ -55,6 +55,18 @@ import java.util.List;
     public void updateWishItem(Wishitem wish) {
         wishlistRepository.updateWishInfo(wish);
     }
+    public void saveWishlist(Wishlist wishlist) {
+        System.out.println("Saving Wishlist: " + wishlist.getWishListName() + " for User ID: " + wishlist.getUserId());
+
+        wishlistRepository.saveWishlist(wishlist);
+
+        System.out.println("Wishlist saved successfully!");
+    }
+    public List<Wishlist> getWishlistsByUserId(Integer userId) {
+        return wishlistRepository.findWishlistsByUserId(userId);
+    }
+
+
 
 
 

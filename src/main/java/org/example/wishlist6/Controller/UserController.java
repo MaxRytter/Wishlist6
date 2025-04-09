@@ -3,12 +3,10 @@ package org.example.wishlist6.Controller;
 import jakarta.servlet.http.HttpSession;
 import org.example.wishlist6.Module.User;
 import org.example.wishlist6.Service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 
 @Controller
@@ -25,17 +23,17 @@ public class UserController {
         return "index";
     }
 
-    @GetMapping("/user")
-    public String getUsers(HttpSession session, Model model) {
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) {
-            return "redirect:/login";
-        }
-        /** bruges kun i testning, men her viser den alle users**/
-        List<User> users = userService.getAllUsers();
-        model.addAttribute("users", users);
-        return "user";
-    }
+//    @GetMapping("/user")
+//    public String getUsers(HttpSession session, Model model) {
+//        Integer userId = (Integer) session.getAttribute("userId");
+//        if (userId == null) {
+//            return "redirect:/login";
+//        }
+//        /** bruges kun i testning, men her viser den alle users**/
+//        List<User> users = userService.getAllUsers();
+//        model.addAttribute("users", users);
+//        return "user";
+//    }
 
     @GetMapping("/user/create")
     public String showCreateForm(Model model) {
@@ -46,12 +44,12 @@ public class UserController {
     @PostMapping("/user/create")
     public String addUser(@ModelAttribute User user) {
         userService.addUser(user);
-        return "redirect:/user";
+        return "redirect:/login";
     }
     @GetMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable int id) {
         userService.deleteUserById(id);
-        return "redirect:/user";
+        return "redirect:/";
     }
     @GetMapping("/user/{id}/edit")
     public String showEditUserForm(@PathVariable("id") int userId, HttpSession session, Model model) {

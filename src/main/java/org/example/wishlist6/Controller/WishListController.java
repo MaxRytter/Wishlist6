@@ -3,9 +3,11 @@ package org.example.wishlist6.Controller;
 import org.example.wishlist6.Module.Wishitem;
 import org.example.wishlist6.Module.Wishlist;
 import org.example.wishlist6.Service.WishListService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -129,4 +131,19 @@ public class WishListController {
 //        wishListService.removeWish(id);
 //        return "redirect:/wishlist"; // Redirect to the wishlist after removal
 //    }
+
+    @GetMapping("/test/403")
+    public String test403() {
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Forbidden!");
+    }
+
+    @GetMapping("/test/404")
+    public String test404() {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found!");
+    }
+
+    @GetMapping("/test/500")
+    public String test500() {
+        throw new RuntimeException("Boom 💥");
+    }
 }

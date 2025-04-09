@@ -35,7 +35,7 @@ public class WishListRepository {
         jdbcTemplate.update(sql,
                 wish.getWishItemName(),
                 wish.getWishItemDescription(),
-                wish.getWishUrl(), // Husk: skal matche Java-klassen
+                wish.getWishUrl(),
                 wish.getWishlistId()
         );
     }

@@ -35,20 +35,28 @@ public class UserService{
     public User getUserById(int userId) {
         return userRepository.getUserById(userId);
     }
-    public User getUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
+//    public User getUserByEmail(String email) {
+//        return userRepository.getUserByEmail(email);
+//    }
+    public User authenticateAndGetUser(String email, String password) {
+        User user = userRepository.getUserByEmail(email);
+        if (user != null && user.getUserPassword().equals(password)) {
+            return user;
+        }
+        return null;
     }
+
 
 //    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
-    public boolean authenticateUser(String userEmail, String userPassword) {
-        User user = userRepository.findUserByEmail(userEmail);
-        if (user !=null) {
-            return userPassword.equals(user.getUserPassword());
-        }
-        return false;
-    }
+//    public boolean authenticateUser(String userEmail, String userPassword) {
+//        User user = userRepository.findUserByEmail(userEmail);
+//        if (user !=null) {
+//            return userPassword.equals(user.getUserPassword());
+//        }
+//        return false;
+//    }
 
 
 }

@@ -23,7 +23,9 @@
     <button type="submit">Tilføj</button>
 </form>
 
-<a href="/wishlist"><button>Tilbage</button></a>
+<a th:href="@{'/wishlist/' + ${wishlistId}}">
+    <button>Tilbage</button>
+</a>
 
 </body>
 </html>

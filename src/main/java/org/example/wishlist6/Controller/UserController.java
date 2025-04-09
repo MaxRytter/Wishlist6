@@ -1,5 +1,6 @@
 package org.example.wishlist6.Controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.example.wishlist6.Module.User;
 import org.example.wishlist6.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,11 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public String getUsers(Model model) {
+    public String getUsers(HttpSession session, Model model) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) {
+            return "redirect:/login";
+        }
         /** bruges kun i testning, men her viser den alle users**/
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
@@ -49,17 +54,26 @@ public class UserController {
         return "redirect:/user";
     }
     @GetMapping("/user/{id}/edit")
-    public String showEditUserForm(@PathVariable("id") int userId, Model model) {
+    public String showEditUserForm(@PathVariable("id") int userId, HttpSession session, Model model) {
+        Integer loggedInUserId = (Integer) session.getAttribute("userId");
+        if (loggedInUserId == null || loggedInUserId != userId) {
+            return "redirect:/";
+        }
+
         User user = userService.getUserById(userId);
         model.addAttribute("user", user);
         return "edit-user";
     }
 
     @PostMapping("/user/{id}/edit")
-    public String updateUser(@PathVariable("id") int userId, @ModelAttribute User user) {
+    public String updateUser(@PathVariable("id") int userId, @ModelAttribute User user, HttpSession session) {
+        Integer loggedInUserId = (Integer) session.getAttribute("userId");
+        if (loggedInUserId == null || loggedInUserId != userId) {
+            return "redirect:/";
+        }
         user.setUserId(userId);
         userService.updateUser(user);
-        return "redirect:/user";
+        return "redirect:/home";
     }
 
 }

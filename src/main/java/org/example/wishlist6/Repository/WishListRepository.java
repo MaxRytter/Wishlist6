@@ -65,6 +65,10 @@ public class WishListRepository {
         String sql = "SELECT * FROM wishlist WHERE wishlist_id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new WishlistRowMapper());
     }
+    public List<Wishlist> findWishlistsByUserId(Integer userId) {
+        String sql = "SELECT * FROM wishlist WHERE user_id = ?";
+        return jdbcTemplate.query(sql, new Object[]{userId}, new WishlistRowMapper());
+    }
 
     public List<Wishitem> getWishesByWishlistId(int wishlistId) {
         String sql = "SELECT * FROM wish WHERE wishlist_id = ?";
@@ -90,6 +94,15 @@ public class WishListRepository {
     public void updateWishlist(Wishlist wishlist) {
         String sql = "UPDATE wishlist SET wishlist_name = ? WHERE wishlist_id = ?";
         jdbcTemplate.update(sql, wishlist.getWishListName(), wishlist.getWishListID());
+    }
+    public void saveWishlist(Wishlist wishlist) {
+        String sql = "INSERT INTO wishlist (wishlist_name, user_id) VALUES (?, ?)";
+
+        System.out.println("Executing SQL: " + sql + " with values " + wishlist.getWishListName() + ", " + wishlist.getUserId());
+
+        jdbcTemplate.update(sql, wishlist.getWishListName(), wishlist.getUserId());
+
+        System.out.println("Wishlist saved in database.");
     }
 
 

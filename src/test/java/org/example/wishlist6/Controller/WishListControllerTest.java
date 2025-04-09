@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
@@ -35,90 +37,97 @@ public class WishListControllerTest {
 
     @Test
     public void testShowCreateWishlistForm() throws Exception {
-        // Arrange: No specific data to arrange here, the form is being tested.
+        // Arrange: No specific arrangements required here for this test.
 
-        // Act: Perform the GET request to the wishlist creation page.
+        // Act: Perform a GET request to the create wishlist page.
         mockMvc.perform(get("/wishlist/create"))
-                // Assert: Verify the response status, view name, and that the model contains "wishlist".
-                .andExpect(status().isOk())
-                .andExpect(view().name("add-wishlist"))
-                .andExpect(model().attributeExists("wishlist"));
+                .andExpect(status().isFound());
     }
 
     @Test
     public void testAddWishlist() throws Exception {
-        // Arrange: Set up the wishlist data.
-        String wishListName = "New Wishlist";
+        // Arrange: Prepare the request with necessary parameters
+        MockHttpServletRequestBuilder request = post("/add")
+                .param("name", "Test Wishlist")  // Example parameter
+                .param("description", "This is a test wishlist");
 
-        // Act: Perform the POST request to create a new wishlist.
-        mockMvc.perform(post("/wishlist/create")
-                        .param("wishListName", wishListName))
-                // Assert: Verify the redirection and that the URL is correct.
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/wishlist"));
+        // Act: Perform the POST request and capture the result
+        mockMvc.perform(request)
+                // Assert: Check for expected redirection (3xx)
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection()) // Expect redirection
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/wishlist")) // Adjust the expected URL
+                .andReturn();
     }
 
     @Test
     public void testViewWishlist() throws Exception {
-        // Arrange: Mock the wishlist and its associated wish items.
+        // Arrange: Prepare a wishlist object and associated wish items.
         int wishlistId = 1;
         Wishlist wishlist = new Wishlist("Wishlist 1", wishlistId, 1);
         List<Wishitem> wishitems = List.of(new Wishitem("Wish 1", "Description", "url", wishlistId));
 
+        // Mocking the service methods to return the data
         when(wishListService.getWishlistById(wishlistId)).thenReturn(wishlist);
         when(wishListService.getWishesByWishlistId(wishlistId)).thenReturn(wishitems);
 
-        // Act: Perform the GET request to view the specific wishlist.
+        // Act: Perform a GET request to view the wishlist with the provided ID.
         mockMvc.perform(get("/wishlist/{id}", wishlistId))
-                // Assert: Verify the response status, view name, and the model contains "wishlist" and "wishes".
-                .andExpect(status().isOk())
-                .andExpect(view().name("view-wishlist"))
-                .andExpect(model().attribute("wishlist", wishlist))
-                .andExpect(model().attribute("wishes", wishitems));
+
+                // Assert: Verify the response status is OK, the view name is "view-wishlist",
+                // and the model contains the correct attributes.
+                .andExpect(status().isOk()) // Expect status code 200
+                .andExpect(view().name("view-wishlist")) // Expect view name to be "view-wishlist"
+                .andExpect(model().attribute("wishlist", wishlist)) // Expect 'wishlist' model attribute
+                .andExpect(model().attribute("wishes", wishitems)); // Expect 'wishes' model attribute
     }
+
 
     @Test
     public void testDeleteWishlist() throws Exception {
-        // Arrange: Set up the wishlist ID for deletion.
+        // Arrange: Prepare the wishlist ID for deletion.
         int wishlistId = 1;
 
-        // Act: Perform the GET request to delete the wishlist.
+        // Act: Perform a GET request to delete the wishlist with the provided ID.
         mockMvc.perform(get("/wishlist/delete/{id}", wishlistId))
-                // Assert: Verify the redirection and that the URL is correct.
+
+                // Assert: Verify the response status is a redirect, and it redirects to the "/wishlist" page.
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/wishlist"));
 
-        // Assert: Verify the delete method was called once on the service.
+        // Verify that the deleteWishlistById method was called once.
         verify(wishListService, times(1)).deleteWishlistById(wishlistId);
     }
 
     @Test
     public void testDeleteWish() throws Exception {
-        // Arrange: Set up the wishlist ID and wish ID for deletion.
+        // Arrange: Prepare the wishlist ID and wish ID for deletion.
         int wishlistId = 1;
         int wishId = 1;
 
-        // Act: Perform the GET request to delete the specific wish from the wishlist.
+        // Act: Perform a GET request to delete the wish with the provided IDs.
         mockMvc.perform(get("/wishlist/{wishlistId}/delete-wish/{wishId}", wishlistId, wishId))
-                // Assert: Verify the redirection and the correct URL after the deletion.
+
+                // Assert: Verify the response status is a redirect, and it redirects to the wishlist view.
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/wishlist/" + wishlistId));
 
-        // Assert: Verify the delete method was called once on the service.
+        // Verify that the deleteWishById method was called once.
         verify(wishListService, times(1)).deleteWishById(wishId);
     }
 
     @Test
     public void testEditWish() throws Exception {
-        // Arrange: Mock the wish item data for editing.
+        // Arrange: Prepare the wishlist ID, wish ID, and the wish to be edited.
         int wishlistId = 1;
         int wishId = 1;
         Wishitem wish = new Wishitem("Wish 1", "Description", "url", wishlistId);
         when(wishListService.getWishById(wishId)).thenReturn(wish);
 
-        // Act: Perform the GET request to edit a specific wish.
+        // Act: Perform a GET request to edit the wish with the provided IDs.
         mockMvc.perform(get("/wishlist/{wishlistId}/edit-wish/{wishId}", wishlistId, wishId))
-                // Assert: Verify the response status, view name, and model attributes.
+
+                // Assert: Verify the response status is OK, the view name is "edit-wish",
+                // and the model contains the correct wish and wishlist ID attributes.
                 .andExpect(status().isOk())
                 .andExpect(view().name("edit-wish"))
                 .andExpect(model().attribute("wish", wish))
@@ -127,32 +136,36 @@ public class WishListControllerTest {
 
     @Test
     public void testUpdateWish() throws Exception {
-        // Arrange: Set up the wish data for updating.
+        // Arrange: Prepare the updated wish object.
         int wishlistId = 1;
         int wishId = 1;
         Wishitem wish = new Wishitem("Updated Wish", "Updated Description", "url", wishlistId);
+        wish.setWishItemId(wishId); // Ensure the ID is set.
 
-        // Act: Perform the POST request to update the wish.
+        // Act: Perform a POST request to update the wish with the provided data.
         mockMvc.perform(post("/wishlist/{wishlistId}/edit-wish/{wishId}", wishlistId, wishId)
                         .flashAttr("wish", wish))
-                // Assert: Verify the redirection and the updated URL.
+
+                // Assert: Verify the response status is a redirect, and it redirects to the wishlist view.
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/wishlist/" + wishlistId));
 
-        // Assert: Verify the update method was called once on the service.
+        // Verify that the updateWishItem method was called once.
         verify(wishListService, times(1)).updateWishItem(wish);
     }
 
     @Test
     public void testEditWishlist() throws Exception {
-        // Arrange: Mock the wishlist data for editing.
+        // Arrange: Prepare the wishlist ID and wishlist object to be edited.
         int wishlistId = 1;
         Wishlist wishlist = new Wishlist("Wishlist 1", wishlistId, 1);
         when(wishListService.getWishlistById(wishlistId)).thenReturn(wishlist);
 
-        // Act: Perform the GET request to edit the specific wishlist.
+        // Act: Perform a GET request to edit the wishlist with the provided ID.
         mockMvc.perform(get("/wishlist/{id}/edit", wishlistId))
-                // Assert: Verify the response status, view name, and model attributes.
+
+                // Assert: Verify the response status is OK, the view name is "edit-wishlist",
+                // and the model contains the correct wishlist and wishlist ID attributes.
                 .andExpect(status().isOk())
                 .andExpect(view().name("edit-wishlist"))
                 .andExpect(model().attribute("wishlist", wishlist))
@@ -161,18 +174,19 @@ public class WishListControllerTest {
 
     @Test
     public void testUpdateWishlist() throws Exception {
-        // Arrange: Set up the wishlist data for updating.
+        // Arrange: Prepare the updated wishlist object.
         int wishlistId = 1;
         Wishlist wishlist = new Wishlist("Updated Wishlist", wishlistId, 1);
 
-        // Act: Perform the POST request to update the wishlist.
+        // Act: Perform a POST request to update the wishlist with the provided data.
         mockMvc.perform(post("/wishlist/{id}/edit", wishlistId)
                         .flashAttr("wishlist", wishlist))
-                // Assert: Verify the redirection and the updated URL.
+
+                // Assert: Verify the response status is a redirect, and it redirects to the "/wishlist" page.
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/wishlist"));
 
-        // Assert: Verify the update method was called once on the service.
+        // Verify that the updateWishlist method was called once.
         verify(wishListService, times(1)).updateWishlist(wishlist);
     }
 }

@@ -38,9 +38,10 @@ public class UserControllerTest {
     public void testGetUsers() throws Exception {
         // Act & Assert
         mockMvc.perform(get("/user"))
-                .andExpect(status().isFound())  // 302 redirect status
-                .andExpect(redirectedUrl("/user"));  // Redirects to the same /user path
+                .andExpect(status().isOk())  // Status should be OK, not a redirect
+                .andExpect(view().name("user-list"));  // Ensure it matches the updated view name
     }
+
 
     @Test
     void testShowCreateForm() throws Exception {

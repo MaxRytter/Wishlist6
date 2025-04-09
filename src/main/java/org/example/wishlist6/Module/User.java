@@ -5,7 +5,6 @@ public class User {
     private String userName;
     private String userEmail;
     private String userPassword;
-    //tilføj map senere
 
     public User(String userName, String userEmail, String userPassword, int userId) {
         this.userName = userName;
@@ -17,8 +16,6 @@ public class User {
     public User() {
 
     }
-
-
 
     public int getUserId() {
         return userId;

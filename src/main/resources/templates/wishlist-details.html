@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
+
   <meta charset="UTF-8">
   <title>Ønskeseddel</title>
+  <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
 
@@ -18,12 +20,12 @@
   </li>
 </ul>
 
-<!-- Knap til at tilføje nyt ønske -->
+
 <a th:href="@{'/wishlist/' + ${wishlist.wishListID} + '/add-wish'}">
   <button>Tilføj ønske</button>
 </a>
 
-<!-- Tilbage til oversigt -->
+
 <a href="/wishlist"><button>Tilbage</button></a>
 
 </body>

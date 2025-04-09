@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
+
     <meta charset="UTF-8">
     <title>Dine ønskesedler</title>
+    <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
 
 <h1>Dine ønskesedler</h1>
 
-<!-- Liste over ønskesedler -->
+
 <ul>
     <li th:each="wishlist : ${wishlists}">
         <span th:text="${wishlist.wishListName}"></span>
@@ -20,16 +22,11 @@
 
     </li>
 </ul>
-
-
-
-
-<!-- Knap til at oprette ny ønskeseddel -->
 <a href="/wishlist/create">
     <button>Opret ny ønskeseddel</button>
 </a>
 
-<!-- Knap til at gå tilbage til forsiden -->
+
 <a href="/home">
     <button>Tilbage</button>
 </a>
@@ -37,7 +34,7 @@
     <li th:each="wishlist : ${wishlists}">
         <span th:text="${wishlist.wishListName}"></span>
 
-        <!-- Klik for at se ønskesedlen og dens ønsker -->
+
         <a th:href="@{'/wishlist/' + ${wishlist.wishListID}}">
             <button>Se ønskeseddel</button>
         </a>

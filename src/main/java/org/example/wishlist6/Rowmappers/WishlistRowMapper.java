@@ -2,6 +2,7 @@ package org.example.wishlist6.Rowmappers;
 
 import org.example.wishlist6.Module.Wishlist;
 import org.springframework.jdbc.core.RowMapper;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

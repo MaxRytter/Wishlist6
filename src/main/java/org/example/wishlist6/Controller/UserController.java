@@ -18,10 +18,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/u")
-    public String showFrontPage() {
-        return "index";
-    }
+//    @GetMapping("/u")
+//    public String showFrontPage() {
+//        return "index";
+//    }
 
 //    @GetMapping("/user")
 //    public String getUsers(HttpSession session, Model model) {
@@ -46,11 +46,7 @@ public class UserController {
         userService.addUser(user);
         return "redirect:/login";
     }
-    @GetMapping("/user/delete/{id}")
-    public String deleteUser(@PathVariable int id) {
-        userService.deleteUserById(id);
-        return "redirect:/";
-    }
+
     @GetMapping("/user/{id}/edit")
     public String showEditUserForm(@PathVariable("id") int userId, HttpSession session, Model model) {
         Integer loggedInUserId = (Integer) session.getAttribute("userId");
@@ -73,5 +69,34 @@ public class UserController {
         userService.updateUser(user);
         return "redirect:/home";
     }
+    @GetMapping("/user/delete/confirm/{id}")
+    public String confirmDeleteUser(@PathVariable int id, Model model, HttpSession session) {
+        Integer loggedInUserId = (Integer) session.getAttribute("userId");
+        if (loggedInUserId == null) {
+            return "redirect:/login";
+        }
+
+        User user = userService.getUserById(id);
+
+        if (user == null || user.getUserId() != loggedInUserId) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("user", user);
+        return "confirm-delete-user";
+    }
+    @PostMapping("/user/delete/{id}")
+    public String deleteUser(@PathVariable int id, HttpSession session) {
+        Integer loggedInUserId = (Integer) session.getAttribute("userId");
+
+        if (loggedInUserId == null || loggedInUserId != id) {
+            return "redirect:/login";
+        }
+
+        userService.deleteUserById(id);
+        session.invalidate();
+        return "redirect:/";
+    }
+
 
 }

@@ -12,7 +12,8 @@
   <li th:each="wish : ${wishes}">
     <strong>Ønske: </strong><span th:text="${wish.wishItemName}"></span> -
     <strong>Beskrivelse: </strong><span th:text="${wish.wishItemDescription}"></span> -
-    <a th:href="${wish.wishUrl}" th:if="${wish.wishUrl} != null" target="_blank">Link til ønske</a>
+    <a th:href="${wish.wishUrl}" th:if="${wish.wishUrl != null and wish.wishUrl != ''}" target="_blank">Link til ønske</a>
+
     <a th:href="@{'/wishlist/' + ${wishlist.getWishListID()} + '/edit-wish/' + ${wish.wishItemId}}">
       <button>Rediger Ønske</button>
     </a>

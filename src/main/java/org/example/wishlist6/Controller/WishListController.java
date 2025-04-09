@@ -142,6 +142,11 @@ public class WishListController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found!");
     }
 
+    @GetMapping("/test/408")
+    public String test408() {
+        throw new ResponseStatusException(HttpStatus.REQUEST_TIMEOUT, "Not found!");
+    }
+
     @GetMapping("/test/500")
     public String test500() {
         throw new RuntimeException("Boom 💥");

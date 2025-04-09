@@ -4,9 +4,11 @@ import jakarta.servlet.http.HttpSession;
 import org.example.wishlist6.Module.Wishitem;
 import org.example.wishlist6.Module.Wishlist;
 import org.example.wishlist6.Service.WishListService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -189,5 +191,26 @@ public class WishListController {
         wishlist.setWishListID(wishlistId);
         wishListService.updateWishlist(wishlist);
         return "redirect:/wishlist";
+    }
+
+    @GetMapping("/test/403")
+    public String test403() {
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Forbidden!");
+    }
+
+    @GetMapping("/test/404")
+    public String test404() {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found!");
+    }
+
+    @GetMapping("/test/408")
+    public String test408() {
+        throw new ResponseStatusException(HttpStatus.REQUEST_TIMEOUT, "Time-out!");
+    }
+
+
+    @GetMapping("/test/500")
+    public String test500() {
+        throw new RuntimeException("Boom 💥");
     }
 }

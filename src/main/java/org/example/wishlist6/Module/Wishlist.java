@@ -3,10 +3,12 @@ package org.example.wishlist6.Module;
 public class Wishlist {
     private int wishListID;
     private String wishListName;
+    private int userId;
 
-    public Wishlist(String wishListName, int wishListID) {
+    public Wishlist(String wishListName, int wishListID, int userId) {
         this.wishListName = wishListName;
         this.wishListID = wishListID;
+        this.userId = userId;
     }
     public Wishlist(){
 
@@ -26,9 +28,6 @@ public class Wishlist {
     public void setWishListName(String wishListName) {
         this.wishListName = wishListName;
     }
-
-
-    private int userId;
 
     public int getUserId() {
         return userId;

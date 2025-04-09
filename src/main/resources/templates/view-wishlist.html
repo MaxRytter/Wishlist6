@@ -25,8 +25,15 @@
   <button>Tilføj ønske</button>
 </a>
 
+<a th:href="@{'/wishlist/' + ${wishlist.getWishListID()} + '/edit'}">
+  <button>Rediger Ønskeseddel-navn</button>
+</a>
+
 <a href="/wishlist"><button>Tilbage</button></a>
-<a th:href="@{'/wishlist/delete/' + ${wishlist.getWishListID}}">Delete Wishlist</a>
+<a th:href="@{'/wishlist/delete/confirm/' + ${wishlist.wishListID}}">
+  <button>Delete</button>
+</a>
+
 
 </body>
 </html>

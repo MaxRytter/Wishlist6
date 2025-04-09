@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @Service
-public class UserService{
+public class UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -26,29 +26,24 @@ public class UserService{
     public List<User> getAllUsers() {
         return userRepository.getAllUsers();
     }
+
     public void deleteUserById(int id) {
         userRepository.deleteUserById(id);
     }
+
     public void updateUser(User user) {
         userRepository.updateUser(user);
     }
+
     public User getUserById(int userId) {
         return userRepository.getUserById(userId);
     }
-    public User getUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
-    }
 
-//    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-
-    public boolean authenticateUser(String userEmail, String userPassword) {
-        User user = userRepository.findUserByEmail(userEmail);
-        if (user !=null) {
-            return userPassword.equals(user.getUserPassword());
+    public User authenticateAndGetUser(String email, String password) {
+        User user = userRepository.getUserByEmail(email);
+        if (user != null && user.getUserPassword().equals(password)) {
+            return user;
         }
-        return false;
+        return null;
     }
-
-
 }

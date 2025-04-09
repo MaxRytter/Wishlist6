@@ -21,7 +21,11 @@
   <button type="submit">Opdater</button>
 </form>
 
-<a href="/user/{id}">Tilbage</a>
+<a href="/home">
+  <button>Tilbage</button>
+</a>
+
+<a th:href="@{'/user/delete/' + ${user.getUserId()}}">Delete User</a>
 
 </body>
 </html>

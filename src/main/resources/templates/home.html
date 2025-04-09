@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Velkommen til din side</h1>
-<p th:text="'Du er logget ind som ' + ${userName} +' med e-mailen '+ ${userEmail}"> </p>
+<p th:text="'Du er logget ind som ' + ${userName}"> </p>
 
 
 <a href="/wishlist">
@@ -14,10 +14,8 @@
     </button>
 </a>
 
-
-<a href="/wishlist/create">
-    <button>Opret ny ønskeseddel
-    </button>
+<a th:href="@{'/user/' + ${user.userId} + '/edit'}">
+    <button>Rediger Bruger</button>
 </a>
 
 

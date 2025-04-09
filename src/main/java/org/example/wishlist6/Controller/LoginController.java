@@ -1,64 +1,65 @@
 package org.example.wishlist6.Controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.example.wishlist6.Module.User;
 import org.example.wishlist6.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import jakarta.servlet.http.HttpSession;
-
-
 
 @Controller
-
 public class LoginController {
-@Autowired
+
+    @Autowired
     private UserService userService;
 
-@GetMapping("/login")
+    @GetMapping("/login")
     public String showLoginPage() {
-    return "login";
-}
-
-@PostMapping("/login")
-    public String loginUser(@RequestParam String userEmail,@RequestParam String userPassword, Model model, HttpSession session) {
-
-    System.out.println("User Email: " + userEmail);
-    System.out.println("User Password: " + userPassword); //slet prints senere, bruger dem bare til debugging
-
-    boolean isAuthenticated = userService.authenticateUser(userEmail, userPassword);
-    if (isAuthenticated) {
-        session.setAttribute("userEmail", userEmail);
-        return "redirect:/home";
-    } else {
-        model.addAttribute("errorMessage", "Brugeren kunne ikke genkendes, prøv igen");
         return "login";
     }
-}
 
-@GetMapping("/home")
-    public String showHome(HttpSession session, Model model) {
-    String userEmail = (String) session.getAttribute("userEmail");
-    if (userEmail == null){
-        return "redirect:/login";
+    @PostMapping("/login")
+    public String loginUser(
+            @RequestParam String userEmail,
+            @RequestParam String userPassword,
+            HttpSession session,
+            Model model
+    ) {
+        System.out.println("Login attempt: " + userEmail + " / " + userPassword);
+
+        User user = userService.authenticateAndGetUser(userEmail, userPassword);
+
+        if (user != null) {
+            System.out.println("Login successful for user: " + user.getUserName());
+            session.setAttribute("userId", user.getUserId());
+            return "redirect:/home";
+        } else {
+            System.out.println("Login failed.");
+            model.addAttribute("errorMessage", "Forkert email eller kodeord.");
+            return "login";
+        }
     }
 
-    User user = userService.getUserByEmail(userEmail);
-    if (user != null) {
-        model.addAttribute("userEmail", userEmail);
-        model.addAttribute("userName", user.getUserName());
-    }
-    return "home";
-}
-
-
-@GetMapping("/logout")
+    @GetMapping("/logout")
     public String logout(HttpSession session) {
-    session.invalidate();
-    return "redirect:/login";
-}
+        session.invalidate();
+        System.out.println("Logging out success");
+        return "redirect:/";
+    }
+
+
+    @GetMapping("/home")
+    public String showHome(HttpSession session, Model model) {
+        Integer userId = (Integer) session.getAttribute("userId");
+
+        if (userId == null) {
+            return "redirect:/";
+        }
+        User user = userService.getUserById(userId);
+        model.addAttribute("user", user);
+        model.addAttribute("userName", user.getUserName());
+        return "home";
+    }
+
 }

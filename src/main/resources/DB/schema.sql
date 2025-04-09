@@ -9,11 +9,10 @@ CREATE TABLE userlist (
 );
 
 CREATE TABLE wishlist (
-                          wishlist_id INT auto_increment primary key,
+                          wishlist_id INT AUTO_INCREMENT PRIMARY KEY,
                           wishlist_name VARCHAR(255) NOT NULL,
                           user_id INT,
                           FOREIGN KEY (user_id) REFERENCES userlist(user_id) ON DELETE CASCADE
-                      /*ON DELETE CASCADE gør, så hvis en række på userlist slettes, så slettes alle tilhørende rækker i wishlists*/
 );
 CREATE TABLE wish (
                       wish_id INT AUTO_INCREMENT PRIMARY KEY,

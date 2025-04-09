@@ -1,11 +1,9 @@
 package org.example.wishlist6.Repository;
 
-import org.example.wishlist6.Module.User;
 import org.example.wishlist6.Module.Wishitem;
 import org.example.wishlist6.Module.Wishlist;
 import org.example.wishlist6.Rowmappers.WishitemRowMapper;
 import org.example.wishlist6.Rowmappers.WishlistRowMapper;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -33,7 +31,7 @@ public class WishListRepository {
     }
 
     //Gemmer ønskeseddel og returnerer genereret ID
-    public int addWishlist(Wishlist wishlist) {
+    public void addWishlist(Wishlist wishlist) {
         String sql = "INSERT INTO wishlist (wishlist_name) VALUES (?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -43,7 +41,7 @@ public class WishListRepository {
             return ps;
         }, keyHolder);
 
-        return keyHolder.getKey().intValue();
+        keyHolder.getKey().intValue();
     }
 
     // Gemmer et ønske til en ønskeseddel

@@ -199,7 +199,7 @@ public class WishListController {
 
     @GetMapping("/test/408")
     public String test408() {
-        throw new ResponseStatusException(HttpStatus.REQUEST_TIMEOUT, "Not found!");
+        throw new ResponseStatusException(HttpStatus.REQUEST_TIMEOUT, "Timeout!");
     }
 
     @GetMapping("/test/500")

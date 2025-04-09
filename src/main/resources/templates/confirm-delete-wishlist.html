@@ -13,9 +13,8 @@
   <button type="submit">Ja, slet</button>
 </form>
 
-<a th:href="@{'/wishlist'}">
+<a th:href="@{'/wishlist/' + ${wishlistId}}">
   <button type="button">Nej, gå tilbage</button>
 </a>
-
 </body>
 </html>

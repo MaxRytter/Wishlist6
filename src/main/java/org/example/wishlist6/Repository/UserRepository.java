@@ -59,7 +59,7 @@ public class UserRepository {
         jdbcTemplate.update(sql, user.getUserName(), user.getUserEmail(), user.getUserPassword(), user.getUserId());
     }
 
-public User findUserByEmail(String email) {
+public User getUserByEmail(String email) {
         try {
             String sql = "SELECT * from userlist WHERE user_email = ? ";
             return jdbcTemplate.queryForObject(sql, new Object[] {email}, new UserRowMapper());

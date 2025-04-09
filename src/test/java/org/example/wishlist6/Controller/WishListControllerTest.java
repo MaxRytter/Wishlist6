@@ -1,4 +1,4 @@
-package org.example.wishlist6.Controller;
+/** package org.example.wishlist6.Controller;
 
 import org.example.wishlist6.Module.Wishlist;
 import org.example.wishlist6.Module.Wishitem;
@@ -96,3 +96,5 @@ public class WishListControllerTest {
                 .andExpect(redirectedUrl("/wishlist"));
     }
 }
+
+ **/

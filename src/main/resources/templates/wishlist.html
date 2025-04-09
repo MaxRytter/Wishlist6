@@ -4,8 +4,9 @@
 
     <meta charset="UTF-8">
     <title>Dine ønskesedler</title>
-    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
 </head>
+
 <body>
 
 <h1>Dine ønskesedler</h1>
@@ -30,16 +31,6 @@
 <a href="/home">
     <button>Tilbage</button>
 </a>
-<ul>
-    <li th:each="wishlist : ${wishlists}">
-        <span th:text="${wishlist.wishListName}"></span>
-
-
-        <a th:href="@{'/wishlist/' + ${wishlist.wishListID}}">
-            <button>Se ønskeseddel</button>
-        </a>
-    </li>
-</ul>
 
 </body>
 </html>

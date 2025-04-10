@@ -73,6 +73,7 @@
                                 <include>**/*.properties</include>
                                 <include>**/*.yml</include>
                                 <include>**/*.xml</include>
+                                <include>**/*.css</include>
                                 <include>**/*.html</include> <!-- ← Added because the templates didn't load for Andy -->
                             </includes>
                         </resource>

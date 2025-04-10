@@ -57,13 +57,22 @@ public class WishListRestControllerTest {
         int wishItemId = 1;
         Wishitem wishItem = new Wishitem("Updated Wish", "Updated description", "http://updated.url", 1);
 
+        // Ensure that the Wishitem object is properly created and matches the expected values
+        String wishItemJson = "{\"wishItemName\": \"Updated Wish\", \"wishItemDescription\": \"Updated description\", \"wishUrl\": \"http://updated.url\", \"wishlistId\": 1}";
+
         // Act & Assert
         mockMvc.perform(put("/api/wishlist/wishlist/update/{id}", wishItemId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"wishItemName\": \"Updated Wish\", \"wishItemDescription\": \"Updated description\", \"wishUrl\": \"http://updated.url\", \"wishlistId\": 1}"))
+                        .content(wishItemJson))
                 .andExpect(status().isOk());
 
         // Verify the interaction with the service
-        verify(wishListService, times(1)).updateWish(wishItemId, wishItem);
+        // Make sure the Wishitem passed to the service matches the one created in the test
+        verify(wishListService, times(1)).updateWish(eq(wishItemId), argThat(wi ->
+                wi.getWishItemName().equals("Updated Wish") &&
+                        wi.getWishItemDescription().equals("Updated description") &&
+                        wi.getWishUrl().equals("http://updated.url") &&
+                        wi.getWishlistId() == 1));
     }
+
 }

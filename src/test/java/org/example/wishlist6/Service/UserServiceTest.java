@@ -108,26 +108,41 @@ public class UserServiceTest {
     @Test
     public void testAuthenticateUser_InvalidEmail() {
         // Arrange
-        when(userRepository.findUserByEmail(anyString())).thenReturn(null);
+        when(userRepository.getUserByEmail(anyString())).thenReturn(null);
 
         // Act
-        boolean isAuthenticated = userService.authenticateUser("invalid@example.com", "password123");
+        User result = userService.authenticateAndGetUser("invalid@example.com", "password123");
 
         // Assert
-        assertFalse(isAuthenticated);
+        assertNull(result);
     }
 
     @Test
     public void testAuthenticateUser_InvalidPassword() {
         // Arrange
         User user = new User("John Doe", "john@example.com", "correctpassword", 1);
-        when(userRepository.findUserByEmail("john@example.com")).thenReturn(user);
+        when(userRepository.getUserByEmail("john@example.com")).thenReturn(user);
 
         // Act
-        boolean isAuthenticated = userService.authenticateUser("john@example.com", "wrongpassword");
+        User result = userService.authenticateAndGetUser("john@example.com", "wrongpassword");
 
         // Assert
-        assertFalse(isAuthenticated);
+        assertNull(result);
     }
 
+    @Test
+    public void testAuthenticateUser_ValidCredentials() {
+        // Arrange
+        User user = new User("John Doe", "john@example.com", "password123", 1);
+        when(userRepository.getUserByEmail("john@example.com")).thenReturn(user);
+
+        // Act
+        User result = userService.authenticateAndGetUser("john@example.com", "password123");
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(user.getUserId(), result.getUserId());
+        assertEquals(user.getUserName(), result.getUserName());
+        assertEquals(user.getUserEmail(), result.getUserEmail());
+    }
 }
